@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>偏好设置</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="./bootstrap/css/bootstrap-theme.min.css" />-->
+    <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./lib/bootstrap-toggle/bootstrap-toggle.min.css" />
+    <link rel="stylesheet" href="./css/made.layout.css">
+</head>
+
+<body>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#gerenal" data-toggle="tab" class="tabview fontall">
+                    <div>
+                        <i class="fa fa-cog" aria-hidden="true"></i> 通用
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#editor" data-toggle="tab" class="tabview fontall">
+                    <div>
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 编辑器
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#slider" data-toggle="tab" class="tabview fontall">
+                    <div>
+                        <i class="fa fa-television" aria-hidden="true"></i> 幻灯片
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="gerenal">
+            </div>
+            <div class="tab-pane fade" id="editor">
+                <div class="panel-group" id="editorPanelGrp" style="margin:6px;">
+                    <div>
+                        <a class="fontall" data-toggle="collapse" data-parent="#editorPanelGrp" href="#collapseShow">显示选项</a>
+                        <div id="collapseShow" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <label class="checkbox-inline fontall">
+                                    <input id="toggleShowLineNumbers" type="checkbox" data-toggle="toggle" data-size="mini">显示行号</label><br/>
+                                <!--<label class="checkbox-inline fontall" style="padding-bottom: 6px;">
+                                    <input type="checkbox" data-toggle="toggle" data-size="mini">show slide range</label>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div>
+                        <div>
+                            <a class="fontall" data-toggle="collapse" data-parent="#editorPanelGrp" href="#collapseThemes">Themes</a>
+                        </div>
+                        <div id="collapseThemes" class="panel-collapse collapse">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <div class="tab-pane fade" id="slider">
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+    </footer>
+    <script>
+        const isElectron = true;
+        if(isElectron){
+            window.$ = window.jQuery = require('./lib/jquery.min.js');
+        }
+    </script>
+    <script type="text/javascript" src="./lib/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript" src="./js/made.router.js"></script>
+    <script type="text/javascript" src="./js/made.pref.js"></script>
+</body>
+
+</html>

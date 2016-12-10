@@ -1,0 +1,19 @@
+{
+  "name": "Made",
+  "version": "0.0.1",
+  "description": "A ingenious markdown slide application",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/pipiliang/made",
+  "keywords": [
+    "markdown",
+    "slide"
+  ],
+  "author": "pipiliang",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}

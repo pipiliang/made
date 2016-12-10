@@ -1,0 +1,25 @@
+.lineContainer {
+    line-height: 120%;
+    width: 100%;
+    position: absolute;
+    height: auto;
+    top: 0px;
+    bottom: 0px;
+    overflow: hidden;
+}
+        
+.lineArea {
+    color: gray;
+    padding-right: 5px;
+    padding-top: 3px;
+    width: 40px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    font-family: Consolas;
+    text-align: right;
+    border-right: 1px solid lightgray;
+    background: #F6F6F6;
+    top: 0px;
+    bottom: 0px;
+}

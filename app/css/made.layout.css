@@ -1,0 +1,180 @@
+/*=== global ===*/
+html,body {
+  height: 100%;
+  *overflow: hidden;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+/*=== layout ===*/
+.header,.footer {
+  width: 100%;
+  position: absolute;
+  background: #F6F6F6;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+.header {
+  height: 25px;
+  top: 0;
+}
+.footer {
+  height: 24px;
+  bottom: 0;
+}
+.backbone,.fill {
+  width: 100%;
+  position: absolute;
+  background: #FFF0FF;
+  height: auto;
+}
+.backbone {
+  top: 25px;
+  bottom: 24px;
+}
+.fill {
+  border-bottom: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+.tbw{
+  width: 24px;
+  /*height: 23px;*/
+}
+
+/* === dragful ===*/
+#left,#right,#middle{ 
+  height:auto;
+  position:absolute;
+} 
+#left{
+  width:350px; 
+  background:#ccc;
+} 
+#middle{ 
+  width:6px; 
+  background: lightgray;
+  left:350px;
+} 
+#middle:hover{ 
+  cursor:w-resize;
+} 
+#right{
+  right:0; 
+  background:#ccc; 
+  left:356px; 
+  width:auto;
+}
+
+/* === core ===*/
+.writepad,.showpad {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-y:visible;
+  border-color: #FFFFFF;
+}
+.writepad {
+  resize: none;
+  font-family: 'Source Code', 'Ubuntu Mono', Consolas;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  padding-left: 5px;
+  outline:none;
+  line-height: 120%;
+}
+.showpad {
+  background: #F1F1F5;
+}
+.item {
+  margin: 3%;
+  width: auto;
+  position: relative;
+  height: 0px;
+  padding-top: 5%;
+  padding-right: 5%;
+  padding-left: 5%;
+  padding-bottom: 62.5%; /*16:9	56.25%, 16:10 62.5% 保持长宽比*/
+  text-align: left;
+  color: #FFFFFF;
+  background-image: url(../img/bk.png);
+  background-size: 100% 100%;
+  overflow: hidden;
+  font-family: Ubuntu, Gill Sans, 华文细黑;
+}
+
+/* === showcase ===*/
+.showcase {
+  width: 100%;
+  padding-top: 5%;
+  padding-right: 10%;
+  padding-left: 10%;
+  padding-bottom: 5%;
+  top: 0px; 
+  height: 100%; 
+  bottom: 0px;
+  color: #FFFFFF;
+  z-index:2; 
+  position: absolute;
+  background-image: url(../img/bk.png);
+  background-size: 100% 100%;
+  font-family: Ubuntu, Gill Sans, 华文细黑;
+}
+
+.showhere {
+  margin: 0 auto;
+  padding-top: 5%;
+  padding-right: 10%;
+  padding-left: 10%;
+  padding-bottom: 5%;
+  /*margin:auto;*/
+  *overflow: hidden;
+}
+
+.pageNumber {
+  width: 100%;
+  height: 30px;
+  position:absolute;
+  color: white;
+  font-family: Ubuntu, Consolas;
+  bottom: 0;
+  text-align: center;
+  z-index:3;
+}
+
+/* === editor ===*/
+.line {
+  width: 10px;
+  position: absolute;
+  background: #F6F6F6;
+  height: auto;
+  border-bottom: 0px;
+  top: 0px;
+  bottom: 0px;
+  border-right:  1px solid lightgray;
+}
+.loc {
+  background-color:#F6F6F6;
+  border-left: 1px dashed dodgerblue;
+  border-top: 1px dashed dodgerblue;
+  border-bottom: 1px dashed dodgerblue;
+  width:3px; 
+  height:50px; 
+  margin-left:3px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+/* === preferences ===*/
+.fontall{
+  font-family:  Ubuntu, 'Segoe UI';
+  font-size: 13px;
+}
+
+.tabview{
+  height: 32px;
+  padding-top: -6px;
+  color: black;
+}
