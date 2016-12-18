@@ -52,7 +52,7 @@ var onWrite = (content, isNew) => {
 		var to = (i == needSlideCount - 1) ? rows : slideArray[i];
 		var curcontext = allrows.slice(from, to).join("\n");
 		console.log(marked(curcontext))
-		allslides[i].innerHTML = '<div class="out"><div class="middle"><div class="inner">' + marked(curcontext) + '</div></div></div>';
+		allslides[i].innerHTML = marked(curcontext);
 		from = slideArray[i] + 1;
 	}
 	
