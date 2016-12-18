@@ -36,7 +36,6 @@ $(document).ready(() => {
       right.style.width = dyWidth + "px";
       right.style.left = iT + middleWidth + "px";
 
-      scaleSlide()
       return false
     };
 
@@ -44,6 +43,7 @@ $(document).ready(() => {
       document.onmousemove = null;
       document.onmouseup = null;
       middle.releaseCapture && middle.releaseCapture()
+      scaleSlide()
     };
 
     middle.setCapture && middle.setCapture();
@@ -69,55 +69,20 @@ $(window).resize(() => {
 
 var scaleSlide = () => {
   // rate = $("#showContainer").children(":last").width() / 527.56
+
   // console.log($("#showContainer").children(":last").width())
   // console.log("rate:" + rate)
+
   // $("#showContainer").children("div").css('transform', 'scale(' + rate + ')')
-  // curSlideWidth = $("#showContainer").children(":last").width()
-  // rate = curSlideWidth / preSlideWidth
-  // console.log("rate:" + rate + " pre:" + preSlideWidth + " cur:" + curSlideWidth)
-  // $("#showContainer").children("div").css('transform', 'scale(' + rate + ')')
-  // preSlideWidth = curSlideWidth
-}
 
-/**
- * view menu handler
- */
 
-if (isElectron) {
-  var router = MessageRouter.create()
-  router.on('view', (event, message) => {
-    switch (message) {
-      case "showslide":
-        break
-    }
-  })
-}
+  curSlideWidth = $("#showContainer").children(":last").width()
 
-/**
- * editor handler script -- handle all editor event
- */
+  rate = curSlideWidth / preSlideWidth
 
-if (isElectron) {
-    var fs = require('fs')
-    var router = MessageRouter.create()
-    router.on('open', (event, message) => {
-        console.log("open file: " + message)
-        fs.readFile(message, 'utf8', function (err, data) {
-            if (err) throw err
-            $("#writeArea").val(data)
-            onWrite(data, true)
-        })
-    })
+  //console.log("rate:" + rate + " pre:" + preSlideWidth + " cur:" + curSlideWidth)
 
-    router.on('save', (event, message) => {
-        console.log("save file: " + message)
-        fs.writeFile(message, $("#writeArea").val(), function (err) {
-            if (err) throw err
-            console.log("File Saved !"); //文件被保存
-        })
-    })
+  //$("#showContainer").children("div").css('transform', 'scale(' + rate + ')')
 
-    router.on('editor-showLineNumbers', (event, msg) => {
-        $('#writeArea').toggleLineNumbers()
-    })
+  preSlideWidth = curSlideWidth
 }

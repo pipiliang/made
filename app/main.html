@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./lib/highlight/styles/rainbow.css">
     <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/made.lined.css" />
+    <link rel="stylesheet" href="./lib/codemirror/codemirror.css">
 </head>
 
 <body>
@@ -26,6 +27,9 @@
                     <a id="btnItalic" class="btn btn-made btn-xs">
                         <i class="fa fa-italic"></i>
                     </a>
+                    <a id="btnStrike" class="btn btn-made btn-xs">
+                        <i class="fa fa-strikethrough"></i>
+                    </a>
                 </div>
                 <div class="btn-group right-sep">
                     <a id="btnOl" class="btn btn-made btn-xs">
@@ -36,6 +40,9 @@
                     </a>
                     <a id="btnTable" class="btn btn-made btn-xs">
                         <i class="fa fa-table"></i>
+                    </a>
+                    <a id="btnNew" class="btn btn-made btn-xs">
+                        <i class="fa fa-film"></i>
                     </a>
                 </div>
                 <div class="btn-group right-sep">
@@ -52,7 +59,7 @@
                         <i class="fa fa-picture-o"></i>
                     </a>
                 </div>
-                 <div class="btn-group">
+                <div class="btn-group">
                     <a id="btnQuestion" class="btn btn-made btn-xs">
                         <i class="fa fa-question"></i>
                     </a>
@@ -67,7 +74,7 @@
         </div>
         <div class="backbone" id="main">
             <div id="left" class="fill">
-                <textarea id="writeArea" class="writepad" placeholder="Enjoy writing markdown slide."></textarea>
+                <textarea id="writeArea" class="writepad" placeholder="享受Markdown演示文稿的乐趣..."></textarea>
             </div>
             <div id="middle" class="fill"></div>
             <div id="right" class="fill">
@@ -78,12 +85,17 @@
             </div>
         </div>
         <div class="footer">
+            <div class="status-block left-sep">
+                <a id="btnBug"class="btn btn-made btn-xs" style="height: 22px; width: 22px; color: #8B3A3A;"><i class="fa fa-bug"></i></a>
+            </div>
+            <div class="status-block left-sep" id="pager">页 1/1</div>
+            <div class="status-block left-sep" id="position">行 1 列 1</div>
         </div>
     </div>
     <div class="showcase" id="showcase" hidden="true">
         <div class="showhere" id="showHere"></div>
     </div>
-    <div class="pageNumber" id="page" hidden="true"></div>
+    <div class="page-number" id="page" hidden="true"></div>
     <script>
         const isElectron = true;
         if(isElectron){
@@ -93,8 +105,11 @@
     <script type="text/javascript" src="./lib/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./lib/marked.js"></script>
+    <script type="text/javascript" src="./lib/codemirror/codemirror.js"></script>
+    <script type="text/javascript" src="./lib/codemirror/mode/markdown/markdown.js"></script>
+    <script type="text/javascript" src="./lib/codemirror/addon/placeholder.js"></script>
     <script type="text/javascript" src="./lib/highlight/highlight.pack.js"></script>
-    <script type="text/javascript" src="./js/made.router.js"></script>
+    <script type="text/javascript" src="./js/made.comm.js"></script>
     <script type="text/javascript" src="./js/made.lined.js"></script>
     <script type="text/javascript" src="./js/made.layout.js"></script>
     <script type="text/javascript" src="./js/made.editor.js"></script>

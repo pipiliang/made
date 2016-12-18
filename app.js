@@ -1,5 +1,6 @@
+"use strcit";
 const electron = require('electron')
-const {app, Menu, dialog, BrowserWindow, ipcMain, globalShortcut, shell} = require('electron')
+const {app, Menu, MenuItem, dialog, BrowserWindow, ipcMain, globalShortcut, shell} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -44,11 +45,22 @@ var WindowMediator = {
     createNew: () => {
         var win = new BrowserWindow({ width: 1000, height: 685, frame: true })
         win.loadURL(url.format({
-            pathname: path.join(__dirname, 'app/index.html'),
+            pathname: path.join(__dirname, 'app/main.html'),
             protocol: 'file:',
             slashes: true
         }))
-        win.on('closed', function () { win = null })
+
+        win.on('closed', function () { win = null; })
+
+        win.on('close', function (e) {
+            var sel = MessageBoxCamp.confirmQuit(win);
+            if (sel == '0' && process.platform !== 'darwin') {
+
+            }
+            else
+                e.preventDefault();
+        })
+
         return win
     }
 }
@@ -86,30 +98,26 @@ var MenuBuilder = {
                 label: '文件', submenu: [
                     { label: "新建", accelerator: 'Ctrl+N', click() { shell.openItem(app.getPath("exe")) } },
                     { label: "打开...", accelerator: 'Ctrl+O', click() { fileDlg.openFile() } },
-                    {
-                        label: "最近使用的", submenu: [
-                            { label: "清除", click() { } },
-                        ]
-                    },
+                    { label: "最近使用的", submenu: [{ label: "清除", enabled: false, click() { RecentFiles.clear() } }] },
                     { type: 'separator' },
                     { label: "保存", accelerator: 'Ctrl+S', click() { fileDlg.saveFile(false) } },
                     { label: "另存为...", click() { fileDlg.saveFile(true) } },
                     { type: 'separator' },
-                    { label: '偏好设置', click() { PreferencesWindow.show(mainWindow) } },
-                    { type: 'separator' },
-                    { label: "退出", click() { MessageBoxCamp.confirmQuit(mainWindow, (sel) => { if (sel == '0' && process.platform !== 'darwin') app.quit() }) } }]
+                    // { label: '偏好设置', click() { PreferencesWindow.show(mainWindow) } },
+                    // { type: 'separator' },
+                    { label: "退出", role: "quit" }]
             },
                 {
                     label: '编辑', submenu: [
-                        { label: '撤销', role: "undo", accelerator: 'Ctrl+Z' },
-                        { label: '重做', role: "redo", accelerator: 'Ctrl+Shift+O' },
+                        { label: '撤销', click() { msgMediator.send("edit", "undo") }, accelerator: 'Ctrl+Z' },
+                        { label: '重做', click() { msgMediator.send("edit", "redo") }, accelerator: 'Ctrl+Shift+O' },
                         { type: 'separator' },
                         { label: '剪切', role: "cut", accelerator: 'Ctrl+X' },
                         { label: '复制', role: "copy", accelerator: 'Ctrl+C' },
                         { label: '粘贴', role: "paste", accelerator: 'Ctrl+V' },
-                        { label: '删除', role: "delete", accelerator: 'Delete' },
+                        { label: '删除', click() { msgMediator.send("edit", "delCharBefore") }, accelerator: 'Delete' },
                         { type: 'separator' },
-                        { label: '全选', role: "selectall", accelerator: 'Ctrl+A' }]
+                        { label: '全选', click() { msgMediator.send("edit", "selectAll") }, accelerator: 'Ctrl+A' }]
                 },
                 {
                     label: '视图', submenu: [
@@ -127,7 +135,8 @@ var MenuBuilder = {
                         { label: '关于', click() { MessageBoxCamp.showAbout(mainWindow) } }]
                 }]
 
-            Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+            Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+            RecentFiles.load(mainWindow);
         }
         return builder
     }
@@ -163,6 +172,7 @@ var FileDialog = {
                 console.log("open file > " + filePath)
                 msgMediator.send('open', filePath)
                 parent.setTitle("Made - " + filePath)
+                RecentFiles.add(filePath);
             }
         }
 
@@ -181,8 +191,11 @@ var MessageBoxCamp = {
             message: "Made"
         })
     },
-    confirmQuit: (parent, callBack) => {
-        dialog.showMessageBox(parent, { type: "question", buttons: ['确认', '取消'], title: "Made", message: '您确认退出Made？' }, callBack)
+    confirmQuit: (parent, callBack = null) => {
+        if (callBack == null)
+            return dialog.showMessageBox(parent, { type: "question", buttons: ['确认', '取消'], title: "Made", message: '您确认退出Made？' })
+        else
+            return dialog.showMessageBox(parent, { type: "question", buttons: ['确认', '取消'], title: "Made", message: '您确认退出Made？' }, callBack)
     }
 }
 
@@ -190,12 +203,106 @@ var PreferencesWindow = {
     show: (parent) => {
         var win = new BrowserWindow({
             width: 600, height: 400, parent: parent, modal: true, show: true, title: '偏好设置', resizable: false
-        })
-        win.setMenuBarVisibility(false)
+        });
+        win.setMenuBarVisibility(false);
         win.loadURL(url.format({
             pathname: path.join(__dirname, 'app/preferences.html'), protocol: 'file:', slashes: true
-        }))
+        }));
     }
 }
 
-Applicaiton.instance().startUp()
+var RecentFiles = {
+    clear: () => {
+        //Utils.mkdir(Utils.getRecentDir())
+        Utils.writeRecent(Utils.getRecentPath(), JSON.stringify({ "open": [] }));
+        var recentSubmenu = RecentFiles.recentMenu()
+        recentSubmenu.clear()
+        recentSubmenu.append(new MenuItem({ label: "清除", enabled: false, click() { RecentFiles.clear() } }));
+    },
+
+    add: (path) => {
+        var max = 10;
+        if (!Utils.existsSync(Utils.getRecentPath())) {
+            Utils.mkdir(Utils.getRecentDir())
+            Utils.writeRecent(Utils.getRecentPath(), JSON.stringify({ "open": [] }));
+        }
+        var json = Utils.readRecent(Utils.getRecentPath())
+        var recent = JSON.parse(json);
+        var files = recent.open;
+        if (files.length == 10) {
+            files.shift();
+        }
+        files.push({ "path": path })
+        Utils.mkdir(Utils.getRecentDir())
+        Utils.writeRecent(Utils.getRecentPath(), JSON.stringify(recent));
+    },
+
+    load: (win) => {
+        if (Utils.existsSync(Utils.getRecentPath())) {
+            var json = Utils.readRecent(Utils.getRecentPath())
+            var recent = JSON.parse(json);
+            var files = recent.open;
+
+            var recentSubmenu = RecentFiles.recentMenu()
+            if (files.length === 0) {
+                recentSubmenu.items[0].enabled = false;
+            } else {
+                recentSubmenu.items[0].enabled = true;
+                for (var i = 0; i < files.length; i++) {
+                    var p = files[i].path;
+                    invertedInsert(1, new MenuItem({
+                        label: p, click() {
+                            MessageMediator.windowIs(win).send('open', p)
+                            win.setTitle("Made - " + p)
+                        }
+                    }));
+                }
+                invertedInsert(1, new MenuItem({ type: 'separator' }));
+            }
+
+            function invertedInsert(pos, item) {
+                recentSubmenu.insert(recentSubmenu.items.length - pos, item);
+            }
+        }
+    },
+
+    recentMenu: () => {
+        var menu = Menu.getApplicationMenu()
+        var recentMenuItem = Menu.getApplicationMenu().items[0].submenu.items[2];
+        return recentMenuItem.submenu;
+    }
+}
+
+var Utils = {
+    getRecentPath: () => {
+        return Utils.getRecentDir() + "/recent.json";
+    },
+
+    getRecentDir: () => {
+        return app.getPath("home") + "/.made";
+    },
+
+    mkdir: (path) => {
+        var fs = require('fs');
+        if (!fs.existsSync(path)) {
+            fs.mkdirSync(path);
+            console.log('更新目录已创建成功\n');
+        }
+    },
+
+    existsSync: (path) => {
+        return require('fs').existsSync(path);
+    },
+
+    writeRecent: (path, content) => {
+        var fs = require('fs');
+        fs.writeFileSync(path, content);
+    },
+
+    readRecent: (path) => {
+        var fs = require('fs');
+        return fs.readFileSync(path)
+    }
+}
+
+Applicaiton.instance().startUp();

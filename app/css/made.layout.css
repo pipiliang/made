@@ -20,7 +20,7 @@ body {
   top: 0;
 }
 .footer {
-  height: 24px;
+  height: 23px;
   bottom: 0;
 }
 .backbone,.fill {
@@ -31,16 +31,40 @@ body {
 }
 .backbone {
   top: 25px;
-  bottom: 24px;
+  bottom: 23px;
 }
 .fill {
   border-bottom: 0px;
   top: 0px;
   bottom: 0px;
 }
-.tbw{
+.right-sep{
+  border-right: 1px solid #DCDCDC;
+  padding-right: 5px;
+}
+.left-sep{
+  border-left: 1px solid #DCDCDC;
+  padding-left: 2px;
+}
+.btn-made {
   width: 24px;
-  /*height: 23px;*/
+  height: 24px;
+  border-radius: 0px;
+  text-align: center;
+  vertical-align: center;
+  border: 0px;
+  color: black;
+  font-size: 14px;
+}
+.btn-made:focus,
+.btn-made.focus {
+  color: #CD9B1D;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+.btn-made:hover {
+  color: #CD9B1D;
+  background-color: #e6e6e6;
 }
 
 /* === dragful ===*/
@@ -88,9 +112,17 @@ body {
 .showpad {
   background: #F1F1F5;
 }
+
+.item, .showcase, .slide-font{
+  background-image: url(../img/bk.png);
+  background-size: 100% 100%;
+  font-family: Ubuntu, Gill Sans, 华文细黑;
+  color: #FFFFFF;
+}
+
 .item {
   margin: 3%;
-  width: auto;
+  /*width: auto;*/
   position: relative;
   height: 0px;
   padding-top: 5%;
@@ -98,29 +130,21 @@ body {
   padding-left: 5%;
   padding-bottom: 62.5%; /*16:9	56.25%, 16:10 62.5% 保持长宽比*/
   text-align: left;
-  color: #FFFFFF;
-  background-image: url(../img/bk.png);
-  background-size: 100% 100%;
   overflow: hidden;
-  font-family: Ubuntu, Gill Sans, 华文细黑;
 }
 
 /* === showcase ===*/
 .showcase {
   width: 100%;
+  height: 100%; 
   padding-top: 5%;
   padding-right: 10%;
   padding-left: 10%;
   padding-bottom: 5%;
   top: 0px; 
-  height: 100%; 
   bottom: 0px;
-  color: #FFFFFF;
-  z-index:2; 
+  z-index:10; 
   position: absolute;
-  background-image: url(../img/bk.png);
-  background-size: 100% 100%;
-  font-family: Ubuntu, Gill Sans, 华文细黑;
 }
 
 .showhere {
@@ -129,11 +153,10 @@ body {
   padding-right: 10%;
   padding-left: 10%;
   padding-bottom: 5%;
-  /*margin:auto;*/
   *overflow: hidden;
 }
 
-.pageNumber {
+.page-number {
   width: 100%;
   height: 30px;
   position:absolute;
@@ -141,30 +164,7 @@ body {
   font-family: Ubuntu, Consolas;
   bottom: 0;
   text-align: center;
-  z-index:3;
-}
-
-/* === editor ===*/
-.line {
-  width: 10px;
-  position: absolute;
-  background: #F6F6F6;
-  height: auto;
-  border-bottom: 0px;
-  top: 0px;
-  bottom: 0px;
-  border-right:  1px solid lightgray;
-}
-.loc {
-  background-color:#F6F6F6;
-  border-left: 1px dashed dodgerblue;
-  border-top: 1px dashed dodgerblue;
-  border-bottom: 1px dashed dodgerblue;
-  width:3px; 
-  height:50px; 
-  margin-left:3px;
-  margin-top:10px;
-  margin-bottom:10px;
+  z-index:10;
 }
 
 /* === preferences ===*/
@@ -178,3 +178,21 @@ body {
   padding-top: -6px;
   color: black;
 }
+
+/* === status ====*/
+.status-block{
+  width:auto;
+  height:20px;
+  float:right;
+  line-height:20px;
+  text-align:center;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.status-block:hover{
+  background-color: #e6e6e6;
+  cursor:default;
+}
+
+.CodeMirror pre.CodeMirror-placeholder { color: #999; }

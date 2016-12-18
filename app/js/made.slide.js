@@ -8,32 +8,13 @@
 // write and made slide here
 
 $(document).ready(() => {
-	hljs.initHighlightingOnLoad();
-	marked.setOptions({
-		highlight: function (code) {
-			return self.hljs.highlightAuto(code).value;
-		}
-	});
-
-	$("#writeArea").bind("input", function (e) {
-		onInput(e)
-	});
-
 	document.addEventListener('keydown', handleGlobalBodyKeyDown, false)
-
-	//open tooltip
-	$(() => { $("[data-toggle='tooltip']").tooltip() });
 })
 
-String.prototype.endWith = function (str) {
-	var reg = new RegExp("^" + str + "\s*");
-	return reg.test(this);
-}
-
-//low algorithm need be optimize，performance problems
-var onInput = (event) => {
-	onWrite(event.target.value, false)
-}
+// //low algorithm need be optimize，performance problems
+// var onInput = (event) => {
+// 	onWrite(event.target.value, false)
+// }
 
 var onWrite = (content, isNew) => {
 	if (isNew) {
@@ -48,13 +29,16 @@ var onWrite = (content, isNew) => {
 	var slideArray = getSlideArray(allrows);
 	var needSlideCount = slideArray.length + 1;
 
-	if (needSlideCount < slideCount) {
+	if (needSlideCount < slideCount) { //remove 
+		EventPool.getInstance().fire({ type: Event.SLIDE_COUNT_CHANGED , count : needSlideCount})
 		for (var i = 0; i < slideCount - needSlideCount; i++) {
 			$("#showContainer").children(":last").remove();
 		}
+
 	}
 
-	if (needSlideCount > slideCount) {
+	if (needSlideCount > slideCount) { //add
+		EventPool.getInstance().fire({ type: Event.SLIDE_COUNT_CHANGED , count : needSlideCount})
 		for (var i = 0; i < needSlideCount - slideCount; i++) {
 			var add = document.createElement('div');
 			add.setAttribute('class', 'item');
@@ -67,20 +51,20 @@ var onWrite = (content, isNew) => {
 	for (var i = 0; i < needSlideCount; i++) {
 		var to = (i == needSlideCount - 1) ? rows : slideArray[i];
 		var curcontext = allrows.slice(from, to).join("\n");
-		allslides[i].innerHTML = marked(curcontext);
+		console.log(marked(curcontext))
+		allslides[i].innerHTML = '<div class="out"><div class="middle"><div class="inner">' + marked(curcontext) + '</div></div></div>';
 		from = slideArray[i] + 1;
 	}
-}
-
-function getAllRows() {
-	var text = $("#writeArea").val();
-	return text.split("\n");
+	
+	//需要再研究，这样应该会影响效率
+	$("#showContainer table").attr("class","table");
+	$("#showContainer pre").attr("class","hljs");
 }
 
 function getSlideArray(o) {
 	var splitarray = new Array();
 	for (var i = 0; i < o.length; i++) {
-		if (o[i].endWith('---')) {
+		if (o[i].like('---')) {
 			splitarray.push(i);
 		}
 	}
@@ -91,11 +75,6 @@ function getSlideArray(o) {
 
 var isShow = false;
 var pageNumber = 0;
-$(document).ready(function () {
-	$("#test").click(function () {
-
-	});
-})
 
 function showSlide() {
 	if (!isShow) {
@@ -168,6 +147,11 @@ var handleGlobalBodyKeyDown = (event) => {
 			isShow ? hideSlide() : showSlide()
 			event.returnValue = false;
 			break;
+		case 27:  //esc
+			if (isElectron) {
+				require('electron').remote.getCurrentWindow().setFullScreen(false)
+			}
+			break;
 	}
 }
 
@@ -178,7 +162,7 @@ var lastSlideIndex = function () {
 if (isElectron) {
     var router = MessageRouter.create()
     router.on('view', (event, message) => {
-        if(message === 'showslide'){
+        if (message === 'showslide') {
 			isShow ? hideSlide() : showSlide()
 		}
     })
