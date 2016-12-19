@@ -34,6 +34,12 @@ Events:
 ```
 npm install -g electron
 ```
+如果无法安装，可以使用taobao镜像
+```
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+cnpm install electron -g
+```
+
 获取项目
 ```
 git clone git@github.com:pipiliang/made.git
@@ -42,10 +48,11 @@ git clone git@github.com:pipiliang/made.git
 ```
 electron .
 ```
-或者
+或
 ```
 npm start
 ```
+
 ### 调试
 
 使用vs code开发和调试，在.vscode目录下创建`launch.json`文件，内容如下
@@ -82,6 +89,10 @@ asar pack . app.asar
 安装electron-packager
 ```
 npm install --save-dev electron-packager
+```
+在项目根目录执行
+```
+npm run-script packager
 ```
 
 ## 使用开源组件
