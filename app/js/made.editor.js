@@ -8,15 +8,15 @@
 $(document).ready(() => {
 	hljs.initHighlightingOnLoad();
 	var madeRenderer = new marked.Renderer();
-	madeRenderer.blockquote = function(quote){
-  			return '<p style="font-size:18px;"><i class="fa fa-quote-left" style="font-size:13px;color:lightgray;"></i>  ' 
-  			+ quote.substring(3, quote.length - 5) 
-  			+ '  <i class="fa fa-quote-right" style="font-size:13px;color:lightgray;"></i></p>';
-		};
+	madeRenderer.blockquote = function (quote) {
+		return '<i class="fa fa-quote-left" style="font-size:13px;color:lightgray;"></i><p style="font-size:18px;">'
+			+ quote.substring(3, quote.length - 5)
+			+ '</p><i class="fa fa-quote-right" style="font-size:13px;color:lightgray;float:right;"></i>';
+	};
 
-	madeRenderer.link = function(href, title, text){
-  			return '<a target="_blank" href="' + href + '">' + text + '</a>';
-		};
+	madeRenderer.link = function (href, title, text) {
+		return "<a href='javascript: void(0);' onclick=\"openUrl('" + href + "');\" >" + text + "</a>";
+	};
 
 	marked.setOptions({
 		highlight: function (code) {
@@ -37,9 +37,13 @@ $(document).ready(() => {
 	MadeStatusBar.init()
 })
 
+var openUrl = (url) => {
+	isElectron ? ElectronMediator.openExternal(url) : window.open(url)
+}
+
 var EditorToolBar = {
 	init: (editor) => {
-		$("#btnHeader").click(() => { editor.insertText('#')})
+		$("#btnHeader").click(() => { editor.insertText('#') })
 		$("#btnBold").click(() => { editor.toggleEnclose('**', '**', 2) })
 		$("#btnItalic").click(() => { editor.toggleEnclose('*', '*', 1) })
 		$("#btnStrike").click(() => { editor.toggleEnclose('~~', '~~', 2) })
@@ -56,13 +60,9 @@ var EditorToolBar = {
 
 		$("#btnQuestion").click(() => { openUrl('http://www.markdown.cn') })
 
-		$("#btnBug").click(() => { openUrl('https://github.com/pipiliang/made/issues')})
+		$("#btnBug").click(() => { openUrl('https://github.com/pipiliang/made/issues') })
 
 		$("[data-toggle='tooltip']").tooltip()
-
-		var openUrl = (url) => {
-			isElectron ? ElectronMediator.openExternal(url) : window.open(url)
-		}
 	}
 }
 

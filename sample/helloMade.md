@@ -40,4 +40,3 @@ win.on('closed', () => {
   win = null
 })
 ```
-

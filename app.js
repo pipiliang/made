@@ -184,7 +184,7 @@ var MessageBoxCamp = {
     showAbout: (parent) => {
         dialog.showMessageBox(parent, {
             type: "info", buttons: ['OK'], title: "Made",
-            detail: "版本  : 0.0.1\n作者  : liangwei\n"
+            detail: "版本  : 0.0.1\n"
             + "Node.js : " + process.versions.node + "\n"
             + "Chromium: " + process.versions.chrome + "\n"
             + "Electron: " + process.versions.electron + "\n",

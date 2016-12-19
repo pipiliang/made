@@ -4,6 +4,9 @@
  * Copyright (c) 2016-2020, liang wei. (MIT Licensed)
  * https://github.com/pipiliang/made
  */
+
+'use strict';
+
 if (isElectron) {
 
     const {ipcRenderer, remote, shell} = require('electron')
