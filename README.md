@@ -29,21 +29,21 @@ Events:
 ## 开发环境
 
 ### electron安装
-
-使用npm安装electron
-```
-npm install -g electron
-```
-如果无法安装，可以使用taobao镜像
-```
-npm install -g cnpm --registry=https://registry.npm.taobao.org
-cnpm install electron -g
-```
-
 获取项目
 ```
 git clone git@github.com:pipiliang/made.git
 ```
+在项目根目录，使用npm安装electron
+```
+npm install --save-dev electron
+```
+如果无法安装，可以使用taobao镜像
+```
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+cnpm install --save-dev electron
+```
+
+### 启动Made
 在项目根目录下，执行以下命令
 ```
 electron .
