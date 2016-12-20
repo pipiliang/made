@@ -10,20 +10,19 @@
 
 ---
 
-# Sample - List
+# List
 
-Instance Events:
+Events:
 - click
 - blur
 
-Static Methods Of BrowserWindow:
+Methods:
 1. getAllWindows()
 2. getFocusedWindow()
-3. fromWebContents(webContents)
 
 ---
 
-# Sample - code
+# Code
 
 单行代码：
 

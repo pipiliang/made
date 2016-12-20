@@ -1,9 +1,12 @@
 ## Made 
-**Markdown幻灯片应用**
+简单的Markdown幻灯片应用 
+
+[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)
+
+## 使用说明
 
 ![](http://git.oschina.net/uploads/images/2016/1216/172110_923f2fb4_856793.png)
 
-## 使用说明
 ### 安装
 
 - Windows

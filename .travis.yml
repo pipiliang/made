@@ -1,7 +1,6 @@
 sudo: required
 os:
 - linux
-- win32
 language: node_js
 node_js:
 - '4'
