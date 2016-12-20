@@ -4,8 +4,7 @@
   "description": "A ingenious markdown slide application",
   "main": "app.js",
   "scripts": {
-    "start": "electron .",
-    "packager": "electron-packager ./made --all"
+    "start": "electron ."
   },
   "repository": "https://github.com/pipiliang/made",
   "keywords": [
@@ -15,7 +14,9 @@
   "author": "pipiliang",
   "license": "MIT",
   "devDependencies": {
+    "asar": "^0.12.3",
     "electron": "^1.4.12",
-    "electron-packager": "^8.4.0"
+    "electron-packager": "^8.4.0",
+    "gulp": "^3.9.1"
   }
 }

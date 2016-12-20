@@ -1,14 +1,14 @@
 ## Made 
 **Markdown幻灯片应用**
 
-![输入图片说明](http://git.oschina.net/uploads/images/2016/1216/172110_923f2fb4_856793.png "在这里输入图片标题")
+![](http://git.oschina.net/uploads/images/2016/1216/172110_923f2fb4_856793.png)
 
 ## 使用说明
 ### 安装
 
 - Windows
 - Ubuntu
-
+- Mac
 
 ### 写幻灯片
 ```
@@ -73,29 +73,18 @@ npm start
 ```
 根据实际情况配置参数，使用vscode调试模式便可进行调试，应用内部调试也可使用开发者工具，快捷键`F8`
 
-### 打包
-
-使用asar进行打包，安装asar
-```
-npm install -g asar
-```
-打包应用，在项目根目录执行asar
-```
-asar pack . app.asar
-```
-
-### 发布
+### 打包发布
 
 安装electron-packager
 ```
-npm install --save-dev electron-packager
+npm install --save-dev electron-packager gulp asar
 ```
 在项目根目录执行
 ```
-npm run-script packager
+gulp pack
 ```
 
 ## 使用开源组件
 
 - Markdown使用[**marked**](https://github.com/chjj/marked)解析
-- 基于[**electron**](https://github.com/electron/electron)开发
+- 应用基于[**electron**](https://github.com/electron/electron)开发
