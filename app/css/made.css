@@ -8,6 +8,9 @@ body {
   padding: 0;
 }
 /*=== layout ===*/
+.edit-layer{
+  z-index:1;
+}
 .header,.footer {
   width: 100%;
   position: absolute;
@@ -18,6 +21,7 @@ body {
 .header {
   height: 25px;
   top: 0;
+  padding-left:5px
 }
 .footer {
   height: 23px;
@@ -113,7 +117,7 @@ body {
   background: #F1F1F5;
 }
 
-.item, .showcase, .slide-font{
+.item, .show-layer, .slide-font{
   background-image: url(../img/bk.png);
   background-size: 100% 100%;
   font-family: Ubuntu, Gill Sans, 华文细黑;
@@ -134,7 +138,8 @@ body {
 }
 
 /* === showcase ===*/
-.showcase {
+.show-layer {
+  position: absolute;
   width: 100%;
   height: 100%; 
   padding-top: 5%;
@@ -143,8 +148,7 @@ body {
   padding-bottom: 5%;
   top: 0px; 
   bottom: 0px;
-  z-index:10; 
-  position: absolute;
+  z-index:10;
 }
 
 .showhere {
@@ -196,3 +200,30 @@ body {
 }
 
 .CodeMirror pre.CodeMirror-placeholder { color: #999; }
+
+/* --刪除--*/
+.lineContainer {
+    line-height: 120%;
+    width: 100%;
+    position: absolute;
+    height: auto;
+    top: 0px;
+    bottom: 0px;
+    overflow: hidden;
+}
+        
+.lineArea {
+    color: gray;
+    padding-right: 5px;
+    padding-top: 3px;
+    width: 40px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    font-family: Consolas;
+    text-align: right;
+    border-right: 1px solid lightgray;
+    background: #F6F6F6;
+    top: 0px;
+    bottom: 0px;
+}

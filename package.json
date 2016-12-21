@@ -1,5 +1,5 @@
 {
-  "name": "Made",
+  "name": "made",
   "version": "0.0.1",
   "description": "A ingenious markdown slide application",
   "main": "app.js",
@@ -11,12 +11,14 @@
     "markdown",
     "slide"
   ],
-  "author": "pipiliang",
+  "author": "liangwei",
   "license": "MIT",
   "devDependencies": {
     "asar": "^0.12.3",
     "electron": "^1.4.12",
     "electron-packager": "^8.4.0",
-    "gulp": "^3.9.1"
+    "gulp-jasmine": "^2.4.2",
+    "jasmine": "^2.5.2",
+    "jasmine-reporters": "^2.2.0"
   }
 }

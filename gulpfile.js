@@ -1,19 +1,22 @@
 var gulp = require('gulp');
 var path = require('path');
 var packager = require('electron-packager');
+var jasmine = require('gulp-jasmine');
+var reporters = require('jasmine-reporters');
 
-gulp.task('test', function() {
-    // "pack": "electron-packager ./made --platform=win32 --arch=ia32 --version=1.4.12 --out=dist/ --overwrite --ignore=node_modules/electron-* --ignore=node_modules/.bin --ignore=.git --ignore=dist --prune"
-	//"pack": "electron-packager . --platform=win32 --arch=all --version=1.4.12 --out=dist/"
-	console.log("test project here...");
+gulp.task('test', function () {
+  gulp.src('test/made.test.js')
+    .pipe(jasmine({
+      reporter: new reporters.JUnitXmlReporter()
+    }))
 });
 
 gulp.task('pack', () => {
   var opts = {
     name: 'made',
     dir: path.join(__dirname, '.'),
-    arch: 'all',
-    platform: 'win32,linux',
+    arch: 'x64',
+    platform: 'linux',
     version: '1.4.12',
     overwrite: true,
     out: path.join(__dirname, './dist'),
@@ -23,8 +26,7 @@ gulp.task('pack', () => {
 
   return packager(opts, (err, appPath) => {
     if (err) {
-      console.log("appPath:" + appPath);
-      console.log("err:" + err);
+      console.log(err);
     }
   })
 });

@@ -1,4 +1,3 @@
-![](http://git.oschina.net/uploads/images/2016/1126/141745_d4135c13_856793.png) 
 ## A markdown slide presentation application.
 ---
 

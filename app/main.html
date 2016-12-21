@@ -6,16 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Made</title>
     <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="./css/made.layout.css" />
+    <link rel="stylesheet" href="./css/made.css" />
     <link rel="stylesheet" href="./lib/highlight/styles/rainbow.css">
     <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./css/made.lined.css" />
     <link rel="stylesheet" href="./lib/codemirror/codemirror.css">
 </head>
 
 <body>
-    <div style="z-index:1;">
-        <div class="header" style="padding-left:5px">
+    <div class="edit-layer">
+        <div class="header">
             <div id="toolbar" class="btn-toolbar" role="toolbar">
                 <div class="btn-group right-sep">
                     <a id="btnHeader" class="btn btn-made btn-xs">
@@ -42,7 +41,7 @@
                         <i class="fa fa-table"></i>
                     </a>
                     <a id="btnNew" class="btn btn-made btn-xs">
-                        <i class="fa fa-film"></i>
+                        <i class="fa fa-minus"></i>
                     </a>
                 </div>
                 <div class="btn-group right-sep">
@@ -92,7 +91,7 @@
             <div class="status-block left-sep" id="position">行 1 列 1</div>
         </div>
     </div>
-    <div class="showcase" id="showcase" hidden="true">
+    <div class="show-layer" id="showcase" hidden="true">
         <div class="showhere" id="showHere"></div>
     </div>
     <div class="page-number" id="page" hidden="true"></div>
