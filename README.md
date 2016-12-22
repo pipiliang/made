@@ -1,7 +1,8 @@
 ## Made 
-[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)]()
 
-简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
+一个简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
+
+[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)]()
 
 ## 使用说明
 

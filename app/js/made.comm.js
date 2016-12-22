@@ -5,63 +5,58 @@
  * https://github.com/pipiliang/made
  */
 
-'use strict';
+(function () {
+    "use strict";
+})();
 
 if (isElectron) {
-
-    const {ipcRenderer, remote, shell} = require('electron')
-
+    var {ipcRenderer, remote, shell} = require('electron');
     var ElectronMediator = {
         getCurrentWindow: function () {
-            return remote.getCurrentWindow()
+            return remote.getCurrentWindow();
         },
-
         openExternal: function (url) {
-            shell.openExternal(url)
+            shell.openExternal(url);
         }
-    }
+    };
 
     var MessageRouter = {
-
         create: function () {
-            var msgRouter = {}
-
-            // send to main process asynchronously
-            msgRouter.asynSend = (callBack, ...msg) => {
-                ipcRenderer.on('asynchronous-reply', (e, arg) => {
-                    if (callBack == null) return
-                    callBack(e, arg)
-                })
-                ipcRenderer.send('asynchronous-message', msg)
-            }
-
+            var msgRouter = {};
+            //send message to main process asynchronously
+            msgRouter.asynSend = function (callBack, ...msg) {
+                ipcRenderer.on('asynchronous-reply', function (e, arg) {
+                    if (callBack === null) return;
+                    callBack(e, arg);
+                });
+                ipcRenderer.send('asynchronous-message', msg);
+            };
             //receive message from main process
-            msgRouter.on = (topic, callback) => {
-                ipcRenderer.on(topic, (e, msg) => { callback(e, msg) })
-            }
-
-            return msgRouter
+            msgRouter.on = function (topic, callback) {
+                ipcRenderer.on(topic, function (e, msg) { callback(e, msg); });
+            };
+            return msgRouter;
         }
-    }
+    };
 }
 
 /**
  * 单例事件池
  */
-var EventPool = (() => {
+var EventPool = (function () {
     function constructor() {
         var target = new EventTarget();
         return {
-            add: (type, handler) => {
+            add: function (type, handler) {
                 target.addEvent(type, handler);
             },
-            fire: (e) => {
-                target.fireEvent(e)
+            fire: function (e) {
+                target.fireEvent(e);
             },
-            remove: (type, handler) => {
+            remove: function (type, handler) {
                 target.removeEvent(type, handler);
             }
-        }
+        };
     }
 
     var instance;
@@ -72,7 +67,7 @@ var EventPool = (() => {
             }
             return instance;
         }
-    }
+    };
 })();
 
 /**
@@ -80,13 +75,13 @@ var EventPool = (() => {
  */
 var Event = {
     SLIDE_COUNT_CHANGED: 'slideCountChanged'
-}
+};
 
 /**
  * 事件定制
  */
 function EventTarget() {
-    this.handlers = {}
+    this.handlers = {};
 }
 
 EventTarget.prototype = {
@@ -137,20 +132,20 @@ EventTarget.prototype = {
 String.prototype.like = function (str) {
     var reg = new RegExp("^" + str + "\s*$");
     return reg.test(this);
-}
+};
 
 String.prototype.startWith = function (s) {
-    if (s == null || s == "" || this.length == 0 || s.length > this.length)
+    if (s === null || s === "" || this.length === 0 || s.length > this.length)
         return false;
     return this.substr(0, s.length) == s;
-}
+};
 
 String.prototype.endWith = function (s) {
-    if (s == null || s == "" || this.length == 0 || s.length > this.length)
+    if (s === null || s === "" || this.length === 0 || s.length > this.length)
         return false;
     return this.substring(this.length - s.length) == s;
-}
+};
 
 String.prototype.test = function (regex) {
     return new RegExp(regex).test(this);
-}
+};

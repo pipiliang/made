@@ -5,84 +5,65 @@
  * https://github.com/pipiliang/made
  */
 
-var byid = (id) => {
-  return document.getElementById(id)
-}
+var preDocumentWidth = document.body.clientWidth;
+var middleWidth = 6;
+var minT = 100;
 
-var preDocumentWidth = document.body.clientWidth
-var preSlideWidth = 527.56
-const middleWidth = 6;
+$(document).ready(function () {
+  $("#middle").on('mousedown', function (e) {
 
-$(document).ready(() => {
-  left = byid("left");
-  right = byid("right");
-  middle = byid("middle");
-
-  //console.log("init: " + $("#showContainer").children(":last").width() + ":" + $("#showContainer").children(":last").height())
-  middle.onmousedown = (e) => {
     var disX = (e || event).clientX;
-    middle.left = middle.offsetLeft;
+    $("#middle")[0].left = $("#middle").offset().left;
 
-    document.onmousemove = (e) => {
+    document.onmousemove = function (e) {
       var iT = middle.left + ((e || event).clientX - disX);
-      var e = e || window.event;
-      var tarnameb = e.target || e.srcElement;
-      maxT = document.body.clientWidth;
-      iT < 0 && (iT = 0);
-      iT > maxT && (iT = maxT);
+      var ee = e || window.event;
+      var tarnameb = ee.target || ee.srcElement;
+      maxT = document.body.clientWidth - minT;
+      if (iT < minT && (iT = minT)) return false;
+      if (iT > maxT && (iT = maxT)) return false;
 
-      middle.style.left = left.style.width = iT + "px";
+      $("#middle").css("left", iT + "px");
+      $("#left").css("width", iT + "px");
       var dyWidth = document.body.clientWidth - iT - middleWidth;
-      right.style.width = dyWidth + "px";
-      right.style.left = iT + middleWidth + "px";
+      $("#right").css("width", dyWidth + "px");
+      $("#right").css("left", iT + middleWidth + "px");
 
-      return false
+      return false;
     };
 
     document.onmouseup = () => {
       document.onmousemove = null;
       document.onmouseup = null;
-      middle.releaseCapture && middle.releaseCapture()
+      if ($("#middle")[0].releaseCapture && $("#middle")[0].releaseCapture()) return;
       scaleSlide()
     };
 
-    middle.setCapture && middle.setCapture();
-    return false
-  };
+    if ($("#middle")[0].setCapture && $("#middle")[0].setCapture()) return;
+    return false;
+  });
 });
 
-$(window).resize(() => {
+var preSlideWidth = 527.56;
+$(window).resize(function () {
+  var curDocumentWidth = document.body.clientWidth;
 
-  var curDocumentWidth = document.body.clientWidth
+  var curLeftWidth = (curDocumentWidth - middleWidth) * $("#left").width() / (preDocumentWidth - middleWidth);
+  $("#left").width(curLeftWidth);
+  $("#middle").css("left", curLeftWidth + "px");
+  var curRightWidth = curDocumentWidth - middleWidth - curLeftWidth;
+  $("#right").width(curRightWidth);
+  $("#right").css("left", (curLeftWidth + middleWidth) + "px");
 
-  var curLeftWidth = (curDocumentWidth - middleWidth) * $("#left").width() / (preDocumentWidth - middleWidth)
-  $("#left").width(curLeftWidth)
-  $("#middle").css("left", curLeftWidth + "px")
-  var curRightWidth = curDocumentWidth - middleWidth - curLeftWidth
-  $("#right").width(curRightWidth)
-  $("#right").css("left", (curLeftWidth + middleWidth) + "px")
-
-  scaleSlide()
-  preDocumentWidth = curDocumentWidth
-
-})
-
-var scaleSlide = () => {
-  // rate = $("#showContainer").children(":last").width() / 527.56
-
-  // console.log($("#showContainer").children(":last").width())
-  // console.log("rate:" + rate)
-
-  // $("#showContainer").children("div").css('transform', 'scale(' + rate + ')')
+  scaleSlide();
+  preDocumentWidth = curDocumentWidth;
+});
 
 
+var scaleSlide = function () {
   curSlideWidth = $("#showContainer").children(":last").width()
-
   rate = curSlideWidth / preSlideWidth
-
   //console.log("rate:" + rate + " pre:" + preSlideWidth + " cur:" + curSlideWidth)
-
   //$("#showContainer").children("div").css('transform', 'scale(' + rate + ')')
-
   preSlideWidth = curSlideWidth
-}
+};

@@ -3,12 +3,26 @@ var path = require('path');
 var packager = require('electron-packager');
 var jasmine = require('gulp-jasmine');
 var reporters = require('jasmine-reporters');
+var jshint = require('gulp-jshint');
 
 gulp.task('test', function () {
-  gulp.src('test/made.test.js')
+  return gulp.src('test/*.js')
     .pipe(jasmine({
-      reporter: new reporters.JUnitXmlReporter()
+      reporter: new reporters.JUnitXmlReporter({
+        savePath: __dirname + '/out',
+        consolidateAll: false,
+        filePrefix: 'junit-'
+      })
     }))
+});
+
+gulp.task('lint', function () {
+  return gulp.src('./app/js/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('gulp-jshint-html-reporter', {
+      filename: __dirname + '/out/jshint-output.html',
+      createMissingFolders: true
+    }));
 });
 
 gulp.task('pack', () => {

@@ -5,13 +5,15 @@
  * https://github.com/pipiliang/made
  */
 
-$(document).ready(() => {
+$(document).ready(function () {
 	hljs.initHighlightingOnLoad();
 	var madeRenderer = new marked.Renderer();
 	madeRenderer.blockquote = function (quote) {
-		return '<p style="font-size:18px;"><i class="fa fa-quote-left" style="font-size:13px;color:lightgray;"></i>    '
-			+ quote.substring(3, quote.length - 5)
-			+ '<i class="fa fa-quote-right" style="font-size:13px;color:lightgray;float:right;"></i></p>';
+		var arr = [];
+		arr.push('<p style="font-size:18px;"><i class="fa fa-quote-left" style="font-size:13px;color:lightgray;"></i>');
+		arr.push(quote.substring(3, quote.length - 5));
+		arr.push('<i class="fa fa-quote-right" style="font-size:13px;color:lightgray;"></i></p>');
+		return arr.join('  ');
 	};
 
 	madeRenderer.link = function (href, title, text) {
@@ -32,43 +34,46 @@ $(document).ready(() => {
         renderer: madeRenderer
 	});
 
-	var editor = MadeEditor.init()
-	EditorToolBar.init(editor)
-	MadeStatusBar.init()
-})
+	var editor = MadeEditor.init();
+	EditorToolBar.init(editor);
+	MadeStatusBar.init();
+});
 
-var openUrl = (url) => {
-	isElectron ? ElectronMediator.openExternal(url) : window.open(url)
-}
+var openUrl = function (url) {
+	if (isElectron)
+		ElectronMediator.openExternal(url);
+	else
+		window.open(url);
+};
 
 var EditorToolBar = {
-	init: (editor) => {
-		$("#btnHeader").click(() => { editor.insertText('#') })
-		$("#btnBold").click(() => { editor.toggleEnclose('**', '**', 2) })
-		$("#btnItalic").click(() => { editor.toggleEnclose('*', '*', 1) })
-		$("#btnStrike").click(() => { editor.toggleEnclose('~~', '~~', 2) })
+	init: function (editor) {
+		$("#btnHeader").click(function () { editor.insertText('#'); });
+		$("#btnBold").click(function () { editor.toggleEnclose('**', '**', 2); });
+		$("#btnItalic").click(function () { editor.toggleEnclose('*', '*', 1); });
+		$("#btnStrike").click(function () { editor.toggleEnclose('~~', '~~', 2); });
 
-		$("#btnOl").click(() => { editor.insertText('\n- ') })
-		$("#btnUl").click(() => { editor.insertText('\n1. ') })
-		$("#btnTable").click(() => { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 4) })
-		$("#btnNew").click(() => { editor.insertText('\n---\n') })
+		$("#btnOl").click(function () { editor.insertText('\n- '); });
+		$("#btnUl").click(function () { editor.insertText('\n1. '); });
+		$("#btnTable").click(function () { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 4); });
+		$("#btnNew").click(function () { editor.insertText('\n---\n'); });
 
-		$("#btnCode").click(() => { editor.insertText('```\n\n```', 0, 1) })
-		$("#btnQuote").click(() => { editor.insertText('>') })
-		$("#btnLink").click(() => { editor.insertText('[](http://)', 1) })
-		$("#btnImg").click(() => { editor.insertText('![](http://)', 1) })
+		$("#btnCode").click(function () { editor.insertText('```\n\n```', 0, 1); });
+		$("#btnQuote").click(function () { editor.insertText('>'); });
+		$("#btnLink").click(function () { editor.insertText('[](http://)', 1); });
+		$("#btnImg").click(function () { editor.insertText('![](http://)', 1); });
 
-		$("#btnQuestion").click(() => { openUrl('http://www.markdown.cn') })
+		$("#btnQuestion").click(function () { openUrl('http://www.markdown.cn'); });
 
-		$("#btnBug").click(() => { openUrl('https://github.com/pipiliang/made/issues') })
+		$("#btnBug").click(function () { openUrl('https://github.com/pipiliang/made/issues'); });
 
-		$("[data-toggle='tooltip']").tooltip()
+		$("[data-toggle='tooltip']").tooltip();
 	}
-}
+};
 
 var MadeEditor = {
 
-	init: () => {
+	init: function () {
 		var editor = CodeMirror.fromTextArea(document.getElementById("writeArea"), {
 			mode: 'markdown',
 			lineNumbers: true,
@@ -78,103 +83,101 @@ var MadeEditor = {
 		});
 
 		editor.setSize('100%', '100%');
-		var doc = editor.getDoc()
-
-		MadeEditor.foucsIt(editor)
+		var doc = editor.getDoc();
+		MadeEditor.foucsIt(editor);
 
 		if (isElectron) {
-			var fs = require('fs')
-			var router = MessageRouter.create()
-			router.on('open', (event, message) => {
-				console.log("open file: " + message)
+			var fs = require('fs');
+			var router = MessageRouter.create();
+			router.on('open', function (event, message) {
+				console.log("open file: " + message);
 				fs.readFile(message, 'utf8', function (err, data) {
-					if (err) throw err
-					editor.setValue(data)
-					refreshSlides(data, true)
-				})
-			})
+					if (err) throw err;
+					editor.setValue(data);
+					refreshSlides(data, true);
+				});
+			});
 
-			router.on('save', (event, message) => {
-				console.log("save file: " + message)
+			router.on('save', function (event, message) {
+				console.log("save file: " + message);
 				fs.writeFile(message, editor.getValue(), function (err) {
-					if (err) throw err
-					console.log("File Saved !"); //文件被保存
-				})
-			})
+					if (err) throw err;
+					console.log("File Saved !");
+				});
+			});
 
-			router.on('edit', (event, cmd) => {
-				editor.execCommand(cmd)
-			})
+			router.on('edit', function (event, cmd) {
+				editor.execCommand(cmd);
+			});
 
-			router.on('editor-showLineNumbers', (event, msg) => {
+			router.on('editor-showLineNumbers', function (event, msg) {
 				// $('#writeArea').toggleLineNumbers()
-			})
+			});
 		}
 
-		editor.on('keyup', () => {
+		editor.on('keyup', function () {
 			refreshSlides(editor.getValue());
-		})
+		});
 
-		editor.on('cursorActivity', (i, e) => {
+		editor.on('cursorActivity', function (i, e) {
 			var cursor = doc.getCursor();
-			$('#position').html('行 ' + (cursor.line + 1) + ' 列 ' + (cursor.ch + 1))
-		})
+			$('#position').html('行 ' + (cursor.line + 1) + ' 列 ' + (cursor.ch + 1));
+		});
 
-		editor.insertText = (data, cursorOffset = 0, lineOffset = 0) => {
+		editor.insertText = function (data, cursorOffset = 0, lineOffset = 0) {
 			var cursor = doc.getCursor();
 			doc.replaceRange(data, cursor);
-			editor.focus()
+			editor.focus();
 			refreshSlides(editor.getValue());
-			var cursor = doc.getCursor();
 			doc.setCursor({
 				line: cursor.line - lineOffset,
 				ch: cursor.ch - cursorOffset
-			})
-		}
+			});
+		};
 
-		editor.toggleEnclose = (before, after, cursorOffset = 0) => {
-			var sel = doc.getSelection()
+		editor.toggleEnclose = function (before, after, cursorOffset = 0) {
+			var sel = doc.getSelection();
 			if (sel.startWith(before) && sel.endWith(after)) {
-				doc.replaceSelection(sel.substring(before.length, sel.length - after.length))
+				doc.replaceSelection(sel.substring(before.length, sel.length - after.length));
 			} else {
-				doc.replaceSelection(before + sel + after)
-				if (sel.length == 0) {
+				doc.replaceSelection(before + sel + after);
+				if (sel.length === 0) {
 					var cursor = doc.getCursor();
 					doc.setCursor({
 						line: cursor.line,
 						ch: cursor.ch - cursorOffset
-					})
+					});
 				}
 			}
-			editor.focus()
+			editor.focus();
 			refreshSlides(editor.getValue());
-		}
+		};
 
-		return editor
+		return editor;
 	},
 
-	foucsIt: (obj) => {
+	foucsIt: function (obj) {
 		if (obj.setSelectionRange) {
-			setTimeout(() => {
-				obj.setSelectionRange(0, 0)
-				obj.focus()
-			}, 100)
+			setTimeout(function () {
+				obj.setSelectionRange(0, 0);
+				obj.focus();
+			}, 100);
 		} else {
-			try { obj.focus() } catch (e) { }
+			try { obj.focus(); } catch (e) { }
 		}
 	}
-}
+};
 
 var MadeStatusBar = {
-	init: () => {
-		EventPool.getInstance().add(Event.SLIDE_COUNT_CHANGED, (e) => {
-			$('#pager').html('页 1/' + e.count)
-		})
+	init: function () {
+		EventPool.getInstance().add(Event.SLIDE_COUNT_CHANGED, function (e) {
+			$('#pager').html('页 1/' + e.count);
+		});
 	}
-}
+};
 
-$(() => {
-	(($) => {
+$(function () {
+	(function ($) {
 		$.fn.extend({
 			insertText: function (v, offset) {
 				var $t = $(this)[0];
@@ -187,7 +190,7 @@ $(() => {
 					$t.selectionStart = startPos + v.length;
 					$t.selectionEnd = startPos + v.length;
 					$t.scrollTop = scrollTop;
-					if (arguments.length == 2) {
+					if (arguments.length === 2) {
 						$t.setSelectionRange(startPos - offset, $t.selectionEnd + offset);
 						this.focus();
 					}
@@ -203,38 +206,38 @@ $(() => {
 					var startPos = $t.selectionStart;
 					var endPos = $t.selectionEnd;
 					var scrollTop = $t.scrollTop;
-					var sel = $t.value.substring(startPos, endPos)
-					var header = $t.value.substring(0, startPos)
-					var tail = $t.value.substring(endPos, $t.value.length)
-					$t.value = header + before + sel + after + tail
-					if (arguments.length == 3) {
-						if (sel.length == 0)
-							$t.setSelectionRange(startPos + offset, startPos + offset)
+					var sel = $t.value.substring(startPos, endPos);
+					var header = $t.value.substring(0, startPos);
+					var tail = $t.value.substring(endPos, $t.value.length);
+					$t.value = header + before + sel + after + tail;
+					if (arguments.length === 3) {
+						if (sel.length === 0)
+							$t.setSelectionRange(startPos + offset, startPos + offset);
 						else
-							$t.setSelectionRange(endPos + offset * 2, endPos + offset * 2)
+							$t.setSelectionRange(endPos + offset * 2, endPos + offset * 2);
 					}
-					this.focus()
+					this.focus();
 				}
 			},
 
 			getSelectedText: function () {
 				if (document.getSelection) {
-					return document.getSelection()
+					return document.getSelection();
 				}
 				else {
 					if (document.selection) {
-						var textRange = document.selection.createRange()
-						return textRange.text
+						var textRange = document.selection.createRange();
+						return textRange.text;
 					}
 				}
 			}
-		})
+		});
 	})(jQuery);
 });
 
-var refreshSlides = (text, isnew = false) => {
-	onWrite(text, isnew)
-}
+var refreshSlides = function (text, isnew = false) {
+	onWrite(text, isnew);
+};
 
 // var preLineNumber = 1
 // var isShowLineNumbers = false
