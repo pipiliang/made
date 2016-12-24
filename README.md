@@ -6,7 +6,7 @@
 
 ## 使用说明
 
-![](http://git.oschina.net/uploads/images/2016/1216/172110_923f2fb4_856793.png)
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1223/174309_2670930b_856793.png "在这里输入图片标题")
 
 ### 安装
 

@@ -1,20 +1,38 @@
 var gulp = require('gulp');
 var path = require('path');
 var packager = require('electron-packager');
-var jasmine = require('gulp-jasmine');
-var reporters = require('jasmine-reporters');
 var jshint = require('gulp-jshint');
+var mocha = require('gulp-mocha');
+var istanbul = require('gulp-istanbul');
+var Instrumenter = require('isparta').Instrumenter;
+var del = require('del');
 
-gulp.task('test', function () {
-  return gulp.src('test/*.js')
-    .pipe(jasmine({
-      reporter: new reporters.JUnitXmlReporter({
-        savePath: __dirname + '/out',
-        consolidateAll: false,
-        filePrefix: 'junit-'
-      })
-    }))
+var src = 'app/js/**.js';
+
+gulp.task('clean', function (cb) {
+  del(['coverage', 'dist', 'out'], cb);
 });
+
+gulp.task('mocha', function () {
+  return gulp.src('test/**test.js')
+    .pipe(mocha({ reporter: 'spec' }));
+});
+
+gulp.task('coverage:instrument', function () {
+  return gulp.src(src)
+    .pipe(istanbul({
+      instrumenter: Instrumenter,
+      includeUntested: true
+    }))
+    .pipe(istanbul.hookRequire())
+})
+
+gulp.task('coverage:report', function () {
+  return gulp.src(src)
+    .pipe(istanbul.writeReports())
+})
+
+gulp.task('coverage', ['coverage:instrument', 'mocha', 'coverage:report'], function () { })
 
 gulp.task('lint', function () {
   return gulp.src('./app/js/*.js')
@@ -28,6 +46,7 @@ gulp.task('lint', function () {
 gulp.task('pack', () => {
   var opts = {
     name: 'made',
+    'app-version': '0.0.1', //不生效
     dir: path.join(__dirname, '.'),
     arch: 'x64',
     platform: 'linux',
@@ -35,7 +54,7 @@ gulp.task('pack', () => {
     overwrite: true,
     out: path.join(__dirname, './dist'),
     asar: true,
-    ignore: ['node_modules', '.git'],
+    ignore: ['node_modules', '.git', 'out', '.gitignore', '.travis.yml', 'coverage'],
   };
 
   return packager(opts, (err, appPath) => {

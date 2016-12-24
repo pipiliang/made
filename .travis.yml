@@ -14,8 +14,12 @@ cache:
   - "$HOME/.electron"
 before_script:
   - npm install -g gulp
+  - gulp clean
 script: 
-  - gulp test
+  - gulp coverage
+  - cat ./coverage/lcov.info | codecov
+after_success:
+  - echo "success"
 branches:
   only:
   - master
