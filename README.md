@@ -2,7 +2,7 @@
 
 一个简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
 
-[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)]()
+[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![codecov](https://codecov.io/gh/pipiliang/made/branch/master/graph/badge.svg)](https://codecov.io/gh/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/pipiliang/made/blob/master/LICENSE)
 
 ## 使用说明
 
