@@ -88,7 +88,7 @@ var MadeEditor = {
       lineNumbers: true,
       theme: "default",
       lineWrapping: "true",
-      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
+      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" },
     });
 
     editor.setSize('100%', '100%');
@@ -134,7 +134,19 @@ var MadeEditor = {
 
     editor.on('cursorActivity', function (i, e) {
       var cursor = doc.getCursor();
-      $('#position').html('行 ' + (cursor.line + 1) + ' 列 ' + (cursor.ch + 1));
+      var row = cursor.line + 1;
+      var col = cursor.ch + 1;
+      $('#position').html('行 ' + row + ' 列 ' + col);
+      var lines = editor.getValue().split("\n");
+      var curPage = 1;
+      for (var i = 0; i < lines.length; i++) {
+        if(i == row)
+          break;
+        if (lines[i].like('---')) {
+          curPage = curPage + 1;
+        }
+      }
+      $('#curPage').html(curPage);
     });
 
     editor.insertText = function (data, cursorOffset = 0, lineOffset = 0) {
@@ -184,7 +196,7 @@ var MadeEditor = {
 var MadeStatusBar = {
   init: function () {
     EventPool.getInstance().add(Event.SLIDE_COUNT_CHANGED, function (e) {
-      $('#pager').html('页 1/' + e.count);
+      $('#pageNumber').html(e.count);
     });
   }
 };
@@ -249,7 +261,8 @@ $(function () {
 });
 
 var refreshSlides = function (text, isnew = false) {
-  onWrite(text, isnew);
+  var lines = text.split("\n");
+  onWrite(lines, isnew);
 };
 
 // var preLineNumber = 1

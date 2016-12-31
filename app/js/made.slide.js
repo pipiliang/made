@@ -11,7 +11,7 @@ $(document).ready(() => {
   document.addEventListener('keydown', handleGlobalBodyKeyDown, false)
 })
 
-var onWrite = (content, isNew) => {
+var onWrite = (lines, isNew) => {
   if (isNew) {
     pageNumber = 0
   }
@@ -19,9 +19,9 @@ var onWrite = (content, isNew) => {
   var allslides = $("#showContainer").children();
   var slideCount = allslides.length;
 
-  var allrows = content.split("\n");
-  var rows = allrows.length;
-  var slideArray = getSlideArray(allrows);
+  //var allrows = content.split("\n");
+  var rows = lines.length;
+  var slideArray = getSlideArray(lines);
   var needSlideCount = slideArray.length + 1;
 
   if (needSlideCount < slideCount) { //remove 
@@ -45,8 +45,8 @@ var onWrite = (content, isNew) => {
   var from = 0;
   for (var i = 0; i < needSlideCount; i++) {
     var to = (i == needSlideCount - 1) ? rows : slideArray[i];
-    var curcontext = allrows.slice(from, to).join("\n");
-    console.log(marked(curcontext))
+    var curcontext = lines.slice(from, to).join("\n");
+    //console.log(marked(curcontext))
     allslides[i].innerHTML = marked(curcontext);
     from = slideArray[i] + 1;
   }
