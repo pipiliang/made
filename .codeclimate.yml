@@ -1,12 +1,22 @@
-# JavaScript: true
-# Ruby: false
-# Python: false
-# PHP: false
 engines:
   eslint:
     enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+
+ratings:
+  paths:
+  - app/**
 
 exclude_paths:
 - "test/**/*"
 - "sample/**"
 - "app/lib/**/*"
+- "LICENSE"
+- "package.json"
+- "README.md"
