@@ -5,65 +5,58 @@
  * https://github.com/pipiliang/made
  */
 
-var preDocumentWidth = document.body.clientWidth;
-var middleWidth = 6;
-var minT = 100;
-
 $(document).ready(function () {
+  var midWidth = 6;
+  var lMin = 200;
+  var rMin = 300;
   $("#middle").on('mousedown', function (e) {
-
     var disX = (e || event).clientX;
-    $("#middle")[0].left = $("#middle").offset().left;
+    middle.left = $("#middle").offset().left;
 
     document.onmousemove = function (e) {
-      var iT = middle.left + ((e || event).clientX - disX);
-      var ee = e || window.event;
-      var tarnameb = ee.target || ee.srcElement;
-      maxT = document.body.clientWidth - minT;
-      if (iT < minT && (iT = minT)) return false;
-      if (iT > maxT && (iT = maxT)) return false;
-
-      $("#middle").css("left", iT + "px");
-      $("#left").css("width", iT + "px");
-      var dyWidth = document.body.clientWidth - iT - middleWidth;
-      $("#right").css("width", dyWidth + "px");
-      $("#right").css("left", iT + middleWidth + "px");
-
+      var left = middle.left + ((e || event).clientX - disX);
+      if (left <= lMin || left >= (getClientWidth() - rMin))
+        return false;
+      $("#middle").css("left", left + "px");
+      $("#left").width(left);
+      $("#right").width(getClientWidth() - left - midWidth);
+      $("#right").css("left", left + midWidth + "px");
+      scale();
       return false;
     };
 
-    document.onmouseup = () => {
+    document.onmouseup = function () {
       document.onmousemove = null;
       document.onmouseup = null;
-      if ($("#middle")[0].releaseCapture && $("#middle")[0].releaseCapture()) return;
-      scaleSlide()
+      if (middle.releaseCapture && middle.releaseCapture())
+        return;
     };
 
-    if ($("#middle")[0].setCapture && $("#middle")[0].setCapture()) return;
-    return false;
+    if (middle.setCapture && middle.setCapture())
+      return false;
   });
+
+  var preWidth = getClientWidth();
+  $(window).resize(function () {
+    var curWidth = getClientWidth();
+
+    var leftWidth = (curWidth - midWidth) * ($("#left").width() / (preWidth - midWidth));
+    $("#left").width(leftWidth);
+    $("#middle").css("left", leftWidth + "px");
+    $("#right").width(curWidth - midWidth - leftWidth);
+    $("#right").css("left", (leftWidth + midWidth) + "px");
+    scale();
+
+    preWidth = curWidth;
+  });
+
+  function getClientWidth() {
+    return document.body.clientWidth;
+  };
+
+  function scale() {
+    var ratio = ($("#right").width() / 644);
+    $("#showContainer").children("div").css("zoom", ratio);
+  };
+
 });
-
-var preSlideWidth = 527.56;
-$(window).resize(function () {
-  var curDocumentWidth = document.body.clientWidth;
-
-  var curLeftWidth = (curDocumentWidth - middleWidth) * $("#left").width() / (preDocumentWidth - middleWidth);
-  $("#left").width(curLeftWidth);
-  $("#middle").css("left", curLeftWidth + "px");
-  var curRightWidth = curDocumentWidth - middleWidth - curLeftWidth;
-  $("#right").width(curRightWidth);
-  $("#right").css("left", (curLeftWidth + middleWidth) + "px");
-
-  scaleSlide();
-  preDocumentWidth = curDocumentWidth;
-});
-
-
-var scaleSlide = function () {
-  curSlideWidth = $("#showContainer").children(":last").width()
-  rate = curSlideWidth / preSlideWidth
-  //console.log("rate:" + rate + " pre:" + preSlideWidth + " cur:" + curSlideWidth)
-  //$("#showContainer").children("div").css('transform', 'scale(' + rate + ')')
-  preSlideWidth = curSlideWidth
-};

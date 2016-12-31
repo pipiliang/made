@@ -45,8 +45,6 @@ gulp.task('lint', function () {
 
 gulp.task('pack', () => {
   var opts = {
-    name: 'made',
-    'app-version': '0.0.1', //不生效
     dir: path.join(__dirname, '.'),
     arch: 'x64',
     platform: 'linux',
@@ -54,7 +52,7 @@ gulp.task('pack', () => {
     overwrite: true,
     out: path.join(__dirname, './dist'),
     asar: true,
-    ignore: ['node_modules', '.git', 'out', '.gitignore', '.travis.yml', 'coverage'],
+    ignore: ['./node_modules', '.git', './out', '.gitignore', '.travis.yml', './coverage'],
   };
 
   return packager(opts, (err, appPath) => {

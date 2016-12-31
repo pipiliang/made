@@ -78,11 +78,11 @@ body {
 } 
 #left{
   width:350px; 
-  background:#ccc;
 } 
 #middle{ 
   width:6px; 
-  background: lightgray;
+  border-left: 1px lightgray solid;
+  background: #F1F1F5;
   left:350px;
 } 
 #middle:hover{ 
@@ -90,7 +90,6 @@ body {
 } 
 #right{
   right:0; 
-  background:#ccc; 
   left:356px; 
   width:auto;
 }
@@ -105,7 +104,7 @@ body {
 }
 .writepad {
   resize: none;
-  font-family: 'Source Code', 'Ubuntu Mono', Consolas;
+  font-family: 'Ubuntu Mono', Consolas;
   left: 0px;
   top: 0px;
   bottom: 0px;
@@ -125,8 +124,8 @@ body {
 }
 
 .item {
-  margin: 3%;
-  /*width: auto;*/
+  margin: 20px;
+  margin-left: 14px;
   position: relative;
   height: 0px;
   padding-top: 5%;
@@ -135,6 +134,11 @@ body {
   padding-bottom: 62.5%; /*16:9	56.25%, 16:10 62.5% 保持长宽比*/
   text-align: left;
   overflow: hidden;
+}
+
+.item:hover {
+  /*border: 1px solid #CD9B1D;*/
+  /*cursor: pointer;*/
 }
 
 /* === showcase ===*/
@@ -199,31 +203,8 @@ body {
   cursor:default;
 }
 
-.CodeMirror pre.CodeMirror-placeholder { color: #999; }
+.btn-bug{
+   height: 22px; 
+   width: 22px;
+}
 
-/* --刪除--*/
-.lineContainer {
-    line-height: 120%;
-    width: 100%;
-    position: absolute;
-    height: auto;
-    top: 0px;
-    bottom: 0px;
-    overflow: hidden;
-}
-        
-.lineArea {
-    color: gray;
-    padding-right: 5px;
-    padding-top: 3px;
-    width: 40px;
-    left: 0px;
-    position: absolute;
-    top: 0px;
-    font-family: Consolas;
-    text-align: right;
-    border-right: 1px solid lightgray;
-    background: #F6F6F6;
-    top: 0px;
-    bottom: 0px;
-}

@@ -1,5 +1,13 @@
 ## A markdown slide presentation application.
+
+|功能项|描述|
+|----|:----|
+|演示功能|`F7` 支持全屏演示|
+|调试模式|`F8` 调试APP|
+|刷新|`F5` 刷新主页面|
+
 ---
+
 
 # 飞机上的父母
 
@@ -23,9 +31,7 @@ Methods:
 
 # Code
 
-单行代码：
-
-`const {BrowserWindow} = require('electron')`
+`JavaScript`
 
 多行代码
 

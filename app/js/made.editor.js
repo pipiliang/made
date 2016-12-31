@@ -6,237 +6,250 @@
  */
 
 $(document).ready(function () {
-	hljs.initHighlightingOnLoad();
-	var madeRenderer = new marked.Renderer();
-	madeRenderer.blockquote = function (quote) {
-		var arr = [];
-		arr.push('<p style="font-size:18px;"><i class="fa fa-quote-left" style="font-size:13px;color:lightgray;"></i>');
-		arr.push(quote.substring(3, quote.length - 5));
-		arr.push('<i class="fa fa-quote-right" style="font-size:13px;color:lightgray;"></i></p>');
-		return arr.join('  ');
-	};
+  hljs.initHighlightingOnLoad();
+  var madeRenderer = new marked.Renderer();
+  madeRenderer.blockquote = function (quote) {
+    var arr = [];
+    arr.push('<p class="blockquote"><i class="fa fa-quote-left quote"></i>');
+    arr.push(quote.substring(3, quote.length - 5));
+    arr.push('<i class="fa fa-quote-right quote"/></i></p>');
+    return arr.join('  ');
+  };
 
-	madeRenderer.link = function (href, title, text) {
-		return "<a href='javascript: void(0);' onclick=\"openUrl('" + href + "');\" >" + text + "</a>";
-	};
+  madeRenderer.link = function (href, title, text) {
+    return "<a href='javascript: void(0);' onclick=\"openUrl('" + href + "');\" >" + text + "</a>";
+  };
+  
+  madeRenderer.code = function (code, language){
+    return "<pre class='codeblock'>" + hljs.highlightAuto(code).value + "</pre>";
+  };
+ 
+  madeRenderer.table = function (header, body){
+     return "<table class='madetable'>" + header + body + "</table>";
+  };
 
-	marked.setOptions({
-		highlight: function (code) {
-			return self.hljs.highlightAuto(code).value;
-		},
-		gfm: true,
-        tables: true,
-        breaks: true,
-        pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-        renderer: madeRenderer
-	});
+  madeRenderer.codespan = function (code) {
+    return "<code class='codespan'>" + code + "</code>";
+  };
 
-	var editor = MadeEditor.init();
-	EditorToolBar.init(editor);
-	MadeStatusBar.init();
+  marked.setOptions({
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+    renderer: madeRenderer
+  });
+
+  var editor = MadeEditor.init();
+  EditorToolBar.init(editor);
+  MadeStatusBar.init();
 });
 
 var openUrl = function (url) {
-	if (isElectron)
-		ElectronMediator.openExternal(url);
-	else
-		window.open(url);
+  if (isElectron)
+    ElectronMediator.openExternal(url);
+  else
+    window.open(url);
 };
 
 var EditorToolBar = {
-	init: function (editor) {
-		$("#btnHeader").click(function () { editor.insertText('#'); });
-		$("#btnBold").click(function () { editor.toggleEnclose('**', '**', 2); });
-		$("#btnItalic").click(function () { editor.toggleEnclose('*', '*', 1); });
-		$("#btnStrike").click(function () { editor.toggleEnclose('~~', '~~', 2); });
+  init: function (editor) {
+    $("#btnHeader").click(function () { editor.insertText('#'); });
+    $("#btnBold").click(function () { editor.toggleEnclose('**', '**', 2); });
+    $("#btnItalic").click(function () { editor.toggleEnclose('*', '*', 1); });
+    $("#btnStrike").click(function () { editor.toggleEnclose('~~', '~~', 2); });
 
-		$("#btnOl").click(function () { editor.insertText('\n- '); });
-		$("#btnUl").click(function () { editor.insertText('\n1. '); });
-		$("#btnTable").click(function () { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 4); });
-		$("#btnNew").click(function () { editor.insertText('\n---\n'); });
+    $("#btnOl").click(function () { editor.insertText('\n- '); });
+    $("#btnUl").click(function () { editor.insertText('\n1. '); });
+    $("#btnTable").click(function () { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 4); });
+    $("#btnNew").click(function () { editor.insertText('\n---\n'); });
 
-		$("#btnCode").click(function () { editor.insertText('```\n\n```', 0, 1); });
-		$("#btnQuote").click(function () { editor.insertText('>'); });
-		$("#btnLink").click(function () { editor.insertText('[](http://)', 1); });
-		$("#btnImg").click(function () { editor.insertText('![](http://)', 1); });
+    $("#btnCode").click(function () { editor.insertText('```\n\n```', 0, 1); });
+    $("#btnQuote").click(function () { editor.insertText('>'); });
+    $("#btnLink").click(function () { editor.insertText('[](http://)', 1); });
+    $("#btnImg").click(function () { editor.insertText('![](http://)', 1); });
 
-		$("#btnQuestion").click(function () { openUrl('http://www.markdown.cn'); });
+    $("#btnQuestion").click(function () { openUrl('http://www.markdown.cn'); });
 
-		$("#btnBug").click(function () { openUrl('https://github.com/pipiliang/made/issues'); });
+    $("#btnBug").click(function () { openUrl('https://github.com/pipiliang/made/issues'); });
 
-		$("[data-toggle='tooltip']").tooltip();
-	}
+    $("[data-toggle='tooltip']").tooltip();
+  }
 };
 
 var MadeEditor = {
 
-	init: function () {
-		var editor = CodeMirror.fromTextArea(document.getElementById("writeArea"), {
-			mode: 'markdown',
-			lineNumbers: true,
-			theme: "default",
-			lineWrapping: "true",
-			extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
-		});
+  init: function () {
+    var editor = CodeMirror.fromTextArea(document.getElementById("writeArea"), {
+      mode: 'markdown',
+      lineNumbers: true,
+      theme: "default",
+      lineWrapping: "true",
+      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
+    });
 
-		editor.setSize('100%', '100%');
-		var doc = editor.getDoc();
-		MadeEditor.foucsIt(editor);
+    editor.setSize('100%', '100%');
+    var doc = editor.getDoc();
+    MadeEditor.foucsIt(editor);
 
-		if (isElectron) {
-			var fs = require('fs');
-			var router = MessageRouter.create();
-			router.on('open', function (event, message) {
-				console.log("open file: " + message);
-				fs.readFile(message, 'utf8', function (err, data) {
-					if (err) throw err;
-					editor.setValue(data);
-					refreshSlides(data, true);
-				});
-			});
+    if (isElectron) {
+      var fs = require('fs');
+      var router = MessageRouter.create();
+      router.on('open', function (event, message) {
+        console.log("open file: " + message);
+        fs.readFile(message, 'utf8', function (err, data) {
+          if (err) throw err;
+          editor.setValue(data);
+          refreshSlides(data, true);
+        });
+      });
 
-			router.on('save', function (event, message) {
-				console.log("save file: " + message);
-				fs.writeFile(message, editor.getValue(), function (err) {
-					if (err) throw err;
-					console.log("File Saved !");
-				});
-			});
+      router.on('save', function (event, message) {
+        console.log("save file: " + message);
+        fs.writeFile(message, editor.getValue(), function (err) {
+          if (err) throw err;
+          console.log("File Saved !");
+        });
+      });
 
-			router.on('edit', function (event, cmd) {
-				editor.execCommand(cmd);
-			});
+      router.on('edit', function (event, cmd) {
+        editor.execCommand(cmd);
+      });
 
-			router.on('editor-showLineNumbers', function (event, msg) {
-				// $('#writeArea').toggleLineNumbers()
-			});
-		}
+      router.on('editor-showLineNumbers', function (event, msg) {
+        // $('#writeArea').toggleLineNumbers()
+      });
+    }
 
-		editor.on('keyup', function () {
-			refreshSlides(editor.getValue());
-		});
+    // editor.on('keyup', function () {
+    //   refreshSlides(editor.getValue());
+    // });
 
-		editor.on('cursorActivity', function (i, e) {
-			var cursor = doc.getCursor();
-			$('#position').html('行 ' + (cursor.line + 1) + ' 列 ' + (cursor.ch + 1));
-		});
+    editor.on('change', function () {
+      refreshSlides(editor.getValue());
+    });
 
-		editor.insertText = function (data, cursorOffset = 0, lineOffset = 0) {
-			var cursor = doc.getCursor();
-			doc.replaceRange(data, cursor);
-			editor.focus();
-			refreshSlides(editor.getValue());
-			doc.setCursor({
-				line: cursor.line - lineOffset,
-				ch: cursor.ch - cursorOffset
-			});
-		};
+    editor.on('cursorActivity', function (i, e) {
+      var cursor = doc.getCursor();
+      $('#position').html('行 ' + (cursor.line + 1) + ' 列 ' + (cursor.ch + 1));
+    });
 
-		editor.toggleEnclose = function (before, after, cursorOffset = 0) {
-			var sel = doc.getSelection();
-			if (sel.startWith(before) && sel.endWith(after)) {
-				doc.replaceSelection(sel.substring(before.length, sel.length - after.length));
-			} else {
-				doc.replaceSelection(before + sel + after);
-				if (sel.length === 0) {
-					var cursor = doc.getCursor();
-					doc.setCursor({
-						line: cursor.line,
-						ch: cursor.ch - cursorOffset
-					});
-				}
-			}
-			editor.focus();
-			refreshSlides(editor.getValue());
-		};
+    editor.insertText = function (data, cursorOffset = 0, lineOffset = 0) {
+      var cursor = doc.getCursor();
+      doc.replaceRange(data, cursor);
+      editor.focus();
+      refreshSlides(editor.getValue());
+      doc.setCursor({
+        line: cursor.line - lineOffset,
+        ch: cursor.ch - cursorOffset
+      });
+    };
 
-		return editor;
-	},
+    editor.toggleEnclose = function (before, after, cursorOffset = 0) {
+      var sel = doc.getSelection();
+      if (sel.startWith(before) && sel.endWith(after)) {
+        doc.replaceSelection(sel.substring(before.length, sel.length - after.length));
+      } else {
+        doc.replaceSelection(before + sel + after);
+        if (sel.length === 0) {
+          var cursor = doc.getCursor();
+          doc.setCursor({
+            line: cursor.line,
+            ch: cursor.ch - cursorOffset
+          });
+        }
+      }
+      editor.focus();
+      refreshSlides(editor.getValue());
+    };
 
-	foucsIt: function (obj) {
-		if (obj.setSelectionRange) {
-			setTimeout(function () {
-				obj.setSelectionRange(0, 0);
-				obj.focus();
-			}, 100);
-		} else {
-			try { obj.focus(); } catch (e) { }
-		}
-	}
+    return editor;
+  },
+
+  foucsIt: function (obj) {
+    if (obj.setSelectionRange) {
+      setTimeout(function () {
+        obj.setSelectionRange(0, 0);
+        obj.focus();
+      }, 100);
+    } else {
+      try { obj.focus(); } catch (e) { }
+    }
+  }
 };
 
 var MadeStatusBar = {
-	init: function () {
-		EventPool.getInstance().add(Event.SLIDE_COUNT_CHANGED, function (e) {
-			$('#pager').html('页 1/' + e.count);
-		});
-	}
+  init: function () {
+    EventPool.getInstance().add(Event.SLIDE_COUNT_CHANGED, function (e) {
+      $('#pager').html('页 1/' + e.count);
+    });
+  }
 };
 
 $(function () {
-	(function ($) {
-		$.fn.extend({
-			insertText: function (v, offset) {
-				var $t = $(this)[0];
-				if ($t.selectionStart || $t.selectionStart == '0') {
-					var startPos = $t.selectionStart;
-					var endPos = $t.selectionEnd;
-					var scrollTop = $t.scrollTop;
-					$t.value = $t.value.substring(0, startPos) + v + $t.value.substring(endPos, $t.value.length);
-					this.focus();
-					$t.selectionStart = startPos + v.length;
-					$t.selectionEnd = startPos + v.length;
-					$t.scrollTop = scrollTop;
-					if (arguments.length === 2) {
-						$t.setSelectionRange(startPos - offset, $t.selectionEnd + offset);
-						this.focus();
-					}
-				} else {
-					$t.innerText += v;
-					this.focus();
-				}
-			},
+  (function ($) {
+    $.fn.extend({
+      insertText: function (v, offset) {
+        var $t = $(this)[0];
+        if ($t.selectionStart || $t.selectionStart == '0') {
+          var startPos = $t.selectionStart;
+          var endPos = $t.selectionEnd;
+          var scrollTop = $t.scrollTop;
+          $t.value = $t.value.substring(0, startPos) + v + $t.value.substring(endPos, $t.value.length);
+          this.focus();
+          $t.selectionStart = startPos + v.length;
+          $t.selectionEnd = startPos + v.length;
+          $t.scrollTop = scrollTop;
+          if (arguments.length === 2) {
+            $t.setSelectionRange(startPos - offset, $t.selectionEnd + offset);
+            this.focus();
+          }
+        } else {
+          $t.innerText += v;
+          this.focus();
+        }
+      },
 
-			insertOrEnclose: function (before, after, offset) {
-				var $t = $(this)[0];
-				if ($t.selectionStart || $t.selectionStart == '0') {
-					var startPos = $t.selectionStart;
-					var endPos = $t.selectionEnd;
-					var scrollTop = $t.scrollTop;
-					var sel = $t.value.substring(startPos, endPos);
-					var header = $t.value.substring(0, startPos);
-					var tail = $t.value.substring(endPos, $t.value.length);
-					$t.value = header + before + sel + after + tail;
-					if (arguments.length === 3) {
-						if (sel.length === 0)
-							$t.setSelectionRange(startPos + offset, startPos + offset);
-						else
-							$t.setSelectionRange(endPos + offset * 2, endPos + offset * 2);
-					}
-					this.focus();
-				}
-			},
+      insertOrEnclose: function (before, after, offset) {
+        var $t = $(this)[0];
+        if ($t.selectionStart || $t.selectionStart == '0') {
+          var startPos = $t.selectionStart;
+          var endPos = $t.selectionEnd;
+          var scrollTop = $t.scrollTop;
+          var sel = $t.value.substring(startPos, endPos);
+          var header = $t.value.substring(0, startPos);
+          var tail = $t.value.substring(endPos, $t.value.length);
+          $t.value = header + before + sel + after + tail;
+          if (arguments.length === 3) {
+            if (sel.length === 0)
+              $t.setSelectionRange(startPos + offset, startPos + offset);
+            else
+              $t.setSelectionRange(endPos + offset * 2, endPos + offset * 2);
+          }
+          this.focus();
+        }
+      },
 
-			getSelectedText: function () {
-				if (document.getSelection) {
-					return document.getSelection();
-				}
-				else {
-					if (document.selection) {
-						var textRange = document.selection.createRange();
-						return textRange.text;
-					}
-				}
-			}
-		});
-	})(jQuery);
+      getSelectedText: function () {
+        if (document.getSelection) {
+          return document.getSelection();
+        }
+        else {
+          if (document.selection) {
+            var textRange = document.selection.createRange();
+            return textRange.text;
+          }
+        }
+      }
+    });
+  })(jQuery);
 });
 
 var refreshSlides = function (text, isnew = false) {
-	onWrite(text, isnew);
+  onWrite(text, isnew);
 };
 
 // var preLineNumber = 1

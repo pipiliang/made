@@ -6,10 +6,10 @@
  */
 
 $(function () {
-    $('#toggleShowLineNumbers').change(function () {
-        var callBack = (e, arg) => {
-            console.log("pref: " + arg)
-        }
-        MessageRouter.create().asynSend(callBack, 'showLineNumbers', $(this).prop('checked'))
-    })
+  $('#toggleShowLineNumbers').change(function () {
+    var callBack = (e, arg) => {
+      console.log("pref: " + arg)
+    }
+    MessageRouter.create().asynSend(callBack, 'showLineNumbers', $(this).prop('checked'))
+  })
 })

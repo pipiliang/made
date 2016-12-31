@@ -2,7 +2,10 @@
 
 一个简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
 
-[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![codecov](https://codecov.io/gh/pipiliang/made/branch/master/graph/badge.svg)](https://codecov.io/gh/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/pipiliang/made/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![codecov](https://codecov.io/gh/pipiliang/made/branch/master/graph/badge.svg)](https://codecov.io/gh/pipiliang/made)  [![Code Climate](https://codeclimate.com/github/pipiliang/made/badges/gpa.svg)](https://codeclimate.com/github/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/pipiliang/made/blob/master/LICENSE)
+
+github： [https://github.com/pipiliang/made](https://github.com/pipiliang/made)
+oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/made)
 
 ## 使用说明
 
@@ -88,6 +91,6 @@ gulp pack
 ## 依赖
 
 - [**electron**](https://github.com/electron/electron)
-- [**marked**](https://github.com/chjj/marked)
 - [**CodeMirror**](http://codemirror.net/)
+- [**marked**](https://github.com/chjj/marked)
 - [**FontAwesome**](http://fontawesome.io/)

@@ -1,0 +1,43 @@
+/* theme of slider*/
+.codespan, .codeblock{
+  background: #474949;
+  color: #d1d9e1;
+}
+
+.codeblock{
+  border:0px;
+}
+
+.blockquote{
+  font-size:18px;
+}
+
+.quote{
+  font-size:13px;
+  color:lightgray;
+}
+
+table.madetable {
+  min-width: 360px;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+table.madetable th{
+  border: 1px solid #293038;
+  padding: 8px;
+  background-color: #62665c;
+}
+table.madetable td {
+  border: 1px solid #293038;
+  padding: 8px;
+  background-color: #7e8475;
+}
+
+/* theme of edotor*/
+.CodeMirror pre.CodeMirror-placeholder { color: #999; }
+
+
+/* theme of main */
+.btn-bug{
+  color: #8B3A3A;
+}
