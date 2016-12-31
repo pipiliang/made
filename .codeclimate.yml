@@ -1,9 +1,12 @@
-JavaScript: true
-Ruby: false
-Python: false
-PHP: false
+# JavaScript: true
+# Ruby: false
+# Python: false
+# PHP: false
+engines:
+  eslint:
+    enabled: true
 
 exclude_paths:
-- test/**/*
-- sample/**
-- app/lib/**/*
+- "test/**/*"
+- "sample/**"
+- "app/lib/**/*"
