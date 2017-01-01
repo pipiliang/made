@@ -12,15 +12,27 @@ cache:
 - directories:
   - "$HOME/.npm"
   - "$HOME/.electron"
+  - node_modules
 before_script:
   - npm install -g gulp
   - gulp clean
 script: 
   - gulp coverage
   - cat ./coverage/lcov.info | codecov
+  - gulp pack
 after_success:
-  - echo "success"
+  - cd dist
+  - ls -la
+  - cd made-linux-*
+  - ls -la
 branches:
   only:
   - master
   - /^v\d+\.\d+\.\d+/
+deploy:
+  provider: releases
+  api_key: "${togh_key}"
+  file: README.md
+  skip_cleanup: true
+  on:
+    tags: true
