@@ -21,9 +21,8 @@ script:
   - cat ./coverage/lcov.info | codecov
   - gulp pack
 after_success:
-  - cd dist
   - ls -la
-  - cd made-linux-*
+  - cd dist
   - ls -la
 branches:
   only:
