@@ -48,7 +48,7 @@ $(document).ready(function () {
     scale();
 
     preWidth = curWidth;
-  });
+  })
 
   function getClientWidth() {
     return document.body.clientWidth;
@@ -57,6 +57,6 @@ $(document).ready(function () {
   function scale() {
     var ratio = ($("#right").width() / 644);
     $("#showContainer").children("div").css("zoom", ratio);
-  };
+  }
 
 });

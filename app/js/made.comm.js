@@ -7,7 +7,7 @@
 
 (function () {
   "use strict";
-})();
+}());
 
 if (isElectron) {
   var {ipcRenderer, remote, shell} = require('electron');
@@ -68,7 +68,7 @@ var EventPool = (function () {
       return instance;
     }
   };
-})();
+}());
 
 /**
  * 事件枚举
@@ -135,13 +135,13 @@ String.prototype.like = function (str) {
 };
 
 String.prototype.startWith = function (s) {
-  if (s === null || s === "" || this.length === 0 || s.length > this.length)
+  if (empty(s) || this.length === 0 || s.length > this.length)
     return false;
   return this.substr(0, s.length) == s;
 };
 
 String.prototype.endWith = function (s) {
-  if (s === null || s === "" || this.length === 0 || s.length > this.length)
+  if (empty(s) || this.length === 0 || s.length > this.length)
     return false;
   return this.substring(this.length - s.length) == s;
 };
@@ -149,3 +149,7 @@ String.prototype.endWith = function (s) {
 String.prototype.test = function (regex) {
   return new RegExp(regex).test(this);
 };
+
+function empty(s){
+  return s === null || s === "";
+}

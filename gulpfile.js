@@ -38,7 +38,7 @@ gulp.task('lint', function () {
   return gulp.src('./app/js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('gulp-jshint-html-reporter', {
-      filename: __dirname + '/out/jshint-output.html',
+      filename: path.join(__dirname, '/out/jshint-output.html'),
       createMissingFolders: true
     }));
 });
@@ -52,7 +52,7 @@ gulp.task('pack', () => {
     overwrite: true,
     out: path.join(__dirname, './dist'),
     asar: true,
-    ignore: ['./node_modules', '.git', './out', '.gitignore', '.travis.yml', './coverage'],
+    ignore: ['./node_modules', '.git', './out', '.gitignore', '.travis.yml', './coverage']
   };
 
   return packager(opts, (err, appPath) => {

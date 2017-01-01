@@ -88,7 +88,7 @@ var MadeEditor = {
       lineNumbers: true,
       theme: "default",
       lineWrapping: "true",
-      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" },
+      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
     });
 
     editor.setSize('100%', '100%');
@@ -139,11 +139,11 @@ var MadeEditor = {
       $('#position').html('行 ' + row + ' 列 ' + col);
       var lines = editor.getValue().split("\n");
       var curPage = 1;
-      for (var i = 0; i < lines.length; i++) {
-        if(i == row)
+      for (var j = 0; j < lines.length; j++) {
+        if(j === row)
           break;
-        if (lines[i].like('---')) {
-          curPage = curPage + 1;
+        if (lines[j].like('---')) {
+          curPage += 1;
         }
       }
       $('#curPage').html(curPage);
@@ -188,7 +188,7 @@ var MadeEditor = {
         obj.focus();
       }, 100);
     } else {
-      try { obj.focus(); } catch (e) { }
+      try { obj.focus(); } catch (e) { console.log('focus failed: ' + e);}
     }
   }
 };
@@ -206,7 +206,7 @@ $(function () {
     $.fn.extend({
       insertText: function (v, offset) {
         var $t = $(this)[0];
-        if ($t.selectionStart || $t.selectionStart == '0') {
+        if ($t.selectionStart || $t.selectionStart === '0') {
           var startPos = $t.selectionStart;
           var endPos = $t.selectionEnd;
           var scrollTop = $t.scrollTop;
@@ -227,7 +227,7 @@ $(function () {
 
       insertOrEnclose: function (before, after, offset) {
         var $t = $(this)[0];
-        if ($t.selectionStart || $t.selectionStart == '0') {
+        if ($t.selectionStart || $t.selectionStart === '0') {
           var startPos = $t.selectionStart;
           var endPos = $t.selectionEnd;
           var scrollTop = $t.scrollTop;

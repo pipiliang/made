@@ -1,7 +1,7 @@
 /*=== global ===*/
 html,body {
   height: 100%;
-  *overflow: hidden;
+  overflow: hidden;
 }
 body {
   margin: 0;
@@ -38,9 +38,9 @@ body {
   bottom: 23px;
 }
 .fill {
-  border-bottom: 0px;
-  top: 0px;
-  bottom: 0px;
+  border-bottom: 0;
+  top: 0;
+  bottom: 0;
 }
 .right-sep{
   border-right: 1px solid #DCDCDC;
@@ -53,10 +53,10 @@ body {
 .btn-made {
   width: 24px;
   height: 24px;
-  border-radius: 0px;
+  border-radius: 0;
   text-align: center;
   vertical-align: center;
-  border: 0px;
+  border: 0;
   color: black;
   font-size: 14px;
 }
@@ -105,12 +105,14 @@ body {
 .writepad {
   resize: none;
   font-family: 'Ubuntu Mono', Consolas;
-  left: 0px;
-  top: 0px;
-  bottom: 0px;
+  left: 0;
+  top: 0;
+  bottom: 0;
   padding-left: 5px;
-  outline:none;
   line-height: 120%;
+}
+.writepad:focus{
+  outline:none;
 }
 .showpad {
   background: #F1F1F5;
@@ -127,18 +129,10 @@ body {
   margin: 20px;
   margin-left: 14px;
   position: relative;
-  height: 0px;
-  padding-top: 5%;
-  padding-right: 5%;
-  padding-left: 5%;
-  padding-bottom: 62.5%; /*16:9	56.25%, 16:10 62.5% 保持长宽比*/
+  height: 0;
+  padding: 5% 5% 62.5% 5%;  /*16:9	56.25%, 16:10 62.5% 保持长宽比*/
   text-align: left;
   overflow: hidden;
-}
-
-.item:hover {
-  /*border: 1px solid #CD9B1D;*/
-  /*cursor: pointer;*/
 }
 
 /* === showcase ===*/
@@ -146,22 +140,16 @@ body {
   position: absolute;
   width: 100%;
   height: 100%; 
-  padding-top: 5%;
-  padding-right: 10%;
-  padding-left: 10%;
-  padding-bottom: 5%;
-  top: 0px; 
-  bottom: 0px;
+  /*padding: 5% 10% 5% 10%;*/
+  top: 0; 
+  bottom: 0;
   z-index:10;
 }
 
 .showhere {
   margin: 0 auto;
-  padding-top: 5%;
-  padding-right: 10%;
-  padding-left: 10%;
-  padding-bottom: 5%;
-  *overflow: hidden;
+  padding: 5% 10% 5% 10%;
+  overflow: hidden;
 }
 
 .page-number {

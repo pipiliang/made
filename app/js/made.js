@@ -1,8 +1,9 @@
 "use strcit";
-const electron = require('electron')
-const {app, Menu, MenuItem, dialog, BrowserWindow, ipcMain, globalShortcut, shell} = require('electron')
-const path = require('path')
-const url = require('url')
+const electron = require('electron');
+const {app, Menu, MenuItem, dialog, BrowserWindow, ipcMain, globalShortcut, shell} = require('electron');
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
 
 var Made = {
   startup: function () {
@@ -34,24 +35,22 @@ var ShortCutRegister = {
   }
 }
 
+var loadUrl = function(win, url){
+  win.loadURL(url.format({pathname: path.join(__dirname, url), protocol: 'file:', slashes: true}));
+}
+
 var WindowMediator = {
   createNew: () => {
     var win = new BrowserWindow({ width: 1000, height: 685, frame: true })
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, './../main.html'),
-      protocol: 'file:',
-      slashes: true
-    }))
+    loadUrl(win, './../main.html');
 
     win.on('closed', function () { win = null; })
 
     win.on('close', function (e) {
       var sel = MessageBoxCamp.confirmQuit(win);
-      if (sel == '0' && process.platform !== 'darwin') {
-
-      }
-      else
+      if (sel !== '0') {
         e.preventDefault();
+      }
     })
 
     return win
@@ -149,18 +148,18 @@ var FileDialog = {
     }
 
     dlg.saveFile = (saveAs = false) => {
-      if (filePath == null || saveAs) {
+      if (filePath === null || saveAs) {
         filePath = dialog.showSaveDialog(parent, { title: saveAs ? "另存为" : "保存", filters: [{ name: 'Made File', extensions: ['md'] }] })
         parent.setTitle("Made - " + filePath)
       }
-      if (filePath != null) {
+      if (filePath !== null) {
         console.log("save file > " + filePath)
         msgMediator.send('save', filePath)
       }
     }
 
     var openCallBack = (filePaths) => {
-      if (filePaths != null && filePaths.length > 0) {
+      if (filePaths !== null && filePaths.length > 0) {
         filePath = filePaths[0]
         console.log("open file > " + filePath)
         msgMediator.send('open', filePath)
@@ -185,7 +184,7 @@ var MessageBoxCamp = {
     })
   },
   confirmQuit: (parent, callBack = null) => {
-    if (callBack == null)
+    if (callBack === null)
       return dialog.showMessageBox(parent, { type: "question", buttons: ['确认', '取消'], title: "Made", message: '您确认退出Made？' })
     else
       return dialog.showMessageBox(parent, { type: "question", buttons: ['确认', '取消'], title: "Made", message: '您确认退出Made？' }, callBack)
@@ -198,9 +197,7 @@ var PreferencesWindow = {
       width: 600, height: 400, parent: parent, modal: true, show: true, title: '偏好设置', resizable: false
     });
     win.setMenuBarVisibility(false);
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'app/preferences.html'), protocol: 'file:', slashes: true
-    }));
+    loadUrl(win, 'app/preferences.html');
   }
 }
 
@@ -276,24 +273,21 @@ var Utils = {
   },
 
   mkdir: (path) => {
-    var fs = require('fs');
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path);
-      console.log('更新目录已创建成功\n');
+      console.log('目录已创建成功\n');
     }
   },
 
   existsSync: (path) => {
-    return require('fs').existsSync(path);
+    return fs.existsSync(path);
   },
 
   writeRecent: (path, content) => {
-    var fs = require('fs');
     fs.writeFileSync(path, content);
   },
 
   readRecent: (path) => {
-    var fs = require('fs');
     return fs.readFileSync(path)
   }
 }

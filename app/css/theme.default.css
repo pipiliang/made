@@ -5,7 +5,7 @@
 }
 
 .codeblock{
-  border:0px;
+  border: 0;
   display: block;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -37,8 +37,7 @@ table.madetable td {
 }
 
 /* theme of edotor*/
-.CodeMirror pre.CodeMirror-placeholder { color: #999; }
-
+.CodeMirror .CodeMirror-placeholder { color: #d4d4d4; }
 
 /* theme of main */
 .btn-bug{

@@ -11,7 +11,7 @@ $(document).ready(() => {
   document.addEventListener('keydown', handleGlobalBodyKeyDown, false)
 })
 
-var onWrite = (lines, isNew) => {
+var onWrite = function (lines, isNew) {
   if (isNew) {
     pageNumber = 0
   }
@@ -41,10 +41,10 @@ var onWrite = (lines, isNew) => {
     }
   }
 
-  var allslides = $("#showContainer").children();
+  allslides = $("#showContainer").children();
   var from = 0;
   for (var i = 0; i < needSlideCount; i++) {
-    var to = (i == needSlideCount - 1) ? rows : slideArray[i];
+    var to = (i === needSlideCount - 1) ? rows : slideArray[i];
     var curcontext = lines.slice(from, to).join("\n");
     //console.log(marked(curcontext))
     allslides[i].innerHTML = marked(curcontext);

@@ -1,10 +1,13 @@
-## A markdown slide presentation application.
+# MADE 
+### A markdown slide presentation application.
 
 |功能项|描述|
 |----|:----|
-|演示功能|`F7` 支持全屏演示|
+|幻灯片演示|`F7` 支持全屏演示|
+|显示页号|`P` 显示或者隐藏页号|
+|退出|`ESC` 退出全屏|
 |调试模式|`F8` 调试APP|
-|刷新|`F5` 刷新主页面|
+
 
 ---
 
@@ -33,7 +36,7 @@ Methods:
 
 `JavaScript`
 
-多行代码
+代码块
 
 ```
 // In the main process.
