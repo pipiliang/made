@@ -92,7 +92,7 @@ EventTarget.prototype = {
    * handler 自定义事件回调函数
    */
   addEvent: function (type, handler) {
-    if (typeof this.handlers[type] == 'undefined') {
+    if (typeof this.handlers[type] === 'undefined') {
       this.handlers[type] = [];
     }
     this.handlers[type].push(handler);
@@ -120,7 +120,7 @@ EventTarget.prototype = {
     if (this.handlers[type] instanceof Array) {
       var handlers = this.handlers[type];
       for (var i = 0; i < handlers.length; i++) {
-        if (handlers[i] == handler) {
+        if (handlers[i] === handler) {
           break;
         }
       }
@@ -137,18 +137,18 @@ String.prototype.like = function (str) {
 String.prototype.startWith = function (s) {
   if (empty(s) || this.length === 0 || s.length > this.length)
     return false;
-  return this.substr(0, s.length) == s;
+  return this.substr(0, s.length) === s;
 };
 
 String.prototype.endWith = function (s) {
   if (empty(s) || this.length === 0 || s.length > this.length)
     return false;
-  return this.substring(this.length - s.length) == s;
+  return this.substring(this.length - s.length) === s;
 };
 
-String.prototype.test = function (regex) {
-  return new RegExp(regex).test(this);
-};
+// String.prototype.test = function (regex) {
+//   return new RegExp(regex).test(this);
+// };
 
 function empty(s){
   return s === null || s === "";

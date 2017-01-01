@@ -219,7 +219,7 @@ var RecentFiles = {
     var json = Utils.readRecent(Utils.getRecentPath())
     var recent = JSON.parse(json);
     var files = recent.open;
-    if (files.length == 10) {
+    if (files.length === 10) {
       files.shift();
     }
     files.push({ "path": path })
@@ -228,6 +228,10 @@ var RecentFiles = {
   },
 
   load: (win) => {
+    function invertedInsert(pos, item) {
+      recentSubmenu.insert(recentSubmenu.items.length - pos, item);
+    }
+
     if (Utils.existsSync(Utils.getRecentPath())) {
       var json = Utils.readRecent(Utils.getRecentPath())
       var recent = JSON.parse(json);
@@ -248,10 +252,6 @@ var RecentFiles = {
           }));
         }
         invertedInsert(1, new MenuItem({ type: 'separator' }));
-      }
-
-      function invertedInsert(pos, item) {
-        recentSubmenu.insert(recentSubmenu.items.length - pos, item);
       }
     }
   },

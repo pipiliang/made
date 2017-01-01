@@ -1,4 +1,4 @@
-# MADE 
+# Made 
 ### A markdown slide presentation application.
 
 |功能项|描述|

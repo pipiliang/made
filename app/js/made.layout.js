@@ -52,7 +52,7 @@ $(document).ready(function () {
 
   function getClientWidth() {
     return document.body.clientWidth;
-  };
+  }
 
   function scale() {
     var ratio = ($("#right").width() / 644);

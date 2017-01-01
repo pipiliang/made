@@ -55,7 +55,7 @@ body {
   height: 24px;
   border-radius: 0;
   text-align: center;
-  vertical-align: center;
+  vertical-align: central;
   border: 0;
   color: black;
   font-size: 14px;
@@ -111,9 +111,9 @@ body {
   padding-left: 5px;
   line-height: 120%;
 }
-.writepad:focus{
+/*.writepad:focus{
   outline:none;
-}
+}*/
 .showpad {
   background: #F1F1F5;
 }
@@ -171,7 +171,7 @@ body {
 
 .tabview{
   height: 32px;
-  padding-top: -6px;
+  margin-top: -6px;
   color: black;
 }
 

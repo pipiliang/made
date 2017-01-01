@@ -57,13 +57,13 @@ var openUrl = function (url) {
 
 var EditorToolBar = {
   init: function (editor) {
-    $("#btnHeader").click(function () { editor.insertText('#'); });
+    $("#btnHeader").click(function () { editor.insertText('#', -1); });
     $("#btnBold").click(function () { editor.toggleEnclose('**', '**', 2); });
     $("#btnItalic").click(function () { editor.toggleEnclose('*', '*', 1); });
     $("#btnStrike").click(function () { editor.toggleEnclose('~~', '~~', 2); });
 
-    $("#btnOl").click(function () { editor.insertText('\n- '); });
-    $("#btnUl").click(function () { editor.insertText('\n1. '); });
+    $("#btnOl").click(function () { editor.insertText('- ', -2); });
+    $("#btnUl").click(function () { editor.insertText('1. ', -2); });
     $("#btnTable").click(function () { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 4); });
     $("#btnNew").click(function () { editor.insertText('\n---\n'); });
 
@@ -88,7 +88,8 @@ var MadeEditor = {
       lineNumbers: true,
       theme: "default",
       lineWrapping: "true",
-      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
+      extraKeys: { Enter: "newlineAndIndentContinueMarkdownList" },
+      dragDrop: false
     });
 
     editor.setSize('100%', '100%');
@@ -257,7 +258,7 @@ $(function () {
         }
       }
     });
-  })(jQuery);
+  }(jQuery));
 });
 
 var refreshSlides = function (text, isnew = false) {
