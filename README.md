@@ -9,10 +9,12 @@ oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/m
 
 ## 使用说明
 
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1223/174309_2670930b_856793.png "在这里输入图片标题")
+
 ### 安装
 
-目前支持Windows、Ubuntu，[点击下载](https://github.com/pipiliang/made/releases)对应zip解压即可使用
-
+目前只支持Ubuntu，下载对应zip解压即可使用
+- [Ubuntu版本](https://github.com/pipiliang/made/releases)
 
 ### 写幻灯片
 ```
