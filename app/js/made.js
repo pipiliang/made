@@ -35,8 +35,8 @@ var ShortCutRegister = {
   }
 }
 
-var loadUrl = function(win, url){
-  win.loadURL(url.format({pathname: path.join(__dirname, url), protocol: 'file:', slashes: true}));
+var loadUrl = function(win, u){
+  win.loadURL(url.format({pathname: path.join(__dirname, u), protocol: 'file:', slashes: true}));
 }
 
 var WindowMediator = {
@@ -48,7 +48,7 @@ var WindowMediator = {
 
     win.on('close', function (e) {
       var sel = MessageBoxCamp.confirmQuit(win);
-      if (sel !== '0') {
+      if (sel === 1) {
         e.preventDefault();
       }
     })

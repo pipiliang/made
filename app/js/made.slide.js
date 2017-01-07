@@ -19,8 +19,6 @@ var onWrite = function (lines, isNew) {
   var allslides = $("#showContainer").children();
   var slideCount = allslides.length;
 
-  //var allrows = content.split("\n");
-  var rows = lines.length;
   var slideArray = getSlideArray(lines);
   var needSlideCount = slideArray.length + 1;
 
@@ -44,7 +42,7 @@ var onWrite = function (lines, isNew) {
   allslides = $("#showContainer").children();
   var from = 0;
   for (var i = 0; i < needSlideCount; i++) {
-    var to = (i === needSlideCount - 1) ? rows : slideArray[i];
+    var to = (i === needSlideCount - 1) ? lines.length : slideArray[i];
     var curcontext = lines.slice(from, to).join("\n");
     //console.log(marked(curcontext))
     allslides[i].innerHTML = marked(curcontext);
@@ -109,15 +107,15 @@ var handleBodyKeyDown = (event) => {
       hideSlide();
       break;
     case 37: //left
-    case 38: //up
+    // case 38: //up
       if (pageNumber > 0) {
         pageNumber--;
         showSlide();
       }
       break;
     case 39: //right
-    case 40: //down
-    case 13: //enter
+    // case 40: //down
+    // case 13: //enter
       if (pageNumber < lastSlideIndex()) {
         pageNumber++;
         showSlide();

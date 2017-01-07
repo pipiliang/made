@@ -57,20 +57,20 @@ var openUrl = function (url) {
 
 var EditorToolBar = {
   init: function (editor) {
-    $("#btnHeader").click(function () { editor.insertText('#', -1); });
-    $("#btnBold").click(function () { editor.toggleEnclose('**', '**', 2); });
-    $("#btnItalic").click(function () { editor.toggleEnclose('*', '*', 1); });
-    $("#btnStrike").click(function () { editor.toggleEnclose('~~', '~~', 2); });
+    $("#btnHeader").click(function () { editor.insertText('#', 1); });
+    $("#btnBold").click(function () { editor.toggleEnclose('**', '**', -2); });
+    $("#btnItalic").click(function () { editor.toggleEnclose('*', '*', -1); });
+    $("#btnStrike").click(function () { editor.toggleEnclose('~~', '~~', -2); });
 
-    $("#btnOl").click(function () { editor.insertText('- ', -2); });
-    $("#btnUl").click(function () { editor.insertText('1. ', -2); });
-    $("#btnTable").click(function () { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 4); });
+    $("#btnOl").click(function () { editor.insertText('- ', 2); });
+    $("#btnUl").click(function () { editor.insertText('1. ', 3); });
+    $("#btnTable").click(function () { editor.insertText('|名称|备注|\n|----|:----:|\n|--|--|', 1, 2); });
     $("#btnNew").click(function () { editor.insertText('\n---\n'); });
 
     $("#btnCode").click(function () { editor.insertText('```\n\n```', 0, 1); });
-    $("#btnQuote").click(function () { editor.insertText('>'); });
+    $("#btnQuote").click(function () { editor.insertText('>', 1); });
     $("#btnLink").click(function () { editor.insertText('[](http://)', 1); });
-    $("#btnImg").click(function () { editor.insertText('![](http://)', 1); });
+    $("#btnImg").click(function () { editor.insertText('![](http://)', 2); });
 
     $("#btnQuestion").click(function () { openUrl('http://www.markdown.cn'); });
 
@@ -156,8 +156,8 @@ var MadeEditor = {
       editor.focus();
       refreshSlides(editor.getValue());
       doc.setCursor({
-        line: cursor.line - lineOffset,
-        ch: cursor.ch - cursorOffset
+        line: cursor.line + lineOffset,
+        ch: cursor.ch + cursorOffset
       });
     };
 
@@ -171,7 +171,7 @@ var MadeEditor = {
           var cursor = doc.getCursor();
           doc.setCursor({
             line: cursor.line,
-            ch: cursor.ch - cursorOffset
+            ch: cursor.ch + cursorOffset
           });
         }
       }

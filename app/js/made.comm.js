@@ -146,10 +146,6 @@ String.prototype.endWith = function (s) {
   return this.substring(this.length - s.length) === s;
 };
 
-// String.prototype.test = function (regex) {
-//   return new RegExp(regex).test(this);
-// };
-
 function empty(s){
   return s === null || s === "";
 }

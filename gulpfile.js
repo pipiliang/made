@@ -1,3 +1,4 @@
+'use strict';
 var gulp = require('gulp');
 var path = require('path');
 var packager = require('electron-packager');
@@ -6,11 +7,14 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var Instrumenter = require('isparta').Instrumenter;
 var del = require('del');
+var zip = require('gulp-zip');
+var minimist = require('minimist');
+var pkg = require('./package.json');
 
 var src = 'app/js/**.js';
 
 gulp.task('clean', function (cb) {
-  del(['coverage', 'dist', 'out'], cb);
+  del(['coverage', 'dist', 'out', 'tmp'], cb);
 });
 
 gulp.task('mocha', function () {
@@ -44,20 +48,31 @@ gulp.task('lint', function () {
 });
 
 gulp.task('pack', () => {
+  del(['tmp']);
+  var knownOptions = {
+    string: 'platform',
+    default: { platform: process.env.NODE_ENV || 'linux' }
+  };
+  var options = minimist(process.argv.slice(2), knownOptions);
   var opts = {
     dir: path.join(__dirname, '.'),
     arch: 'x64',
-    platform: 'linux',
+    platform: options.platform,
     version: '1.4.12',
     overwrite: true,
-    out: path.join(__dirname, './dist'),
+    out: path.join(__dirname, 'tmp'),
     asar: true,
-    ignore: ['./node_modules', '.git', './out', '.gitignore', '.travis.yml', './coverage']
+    ignore: ['.vscode', 'dist', './node_modules', 'test', './out', '.git', './coverage', './tmp', '.gitignore', '.travis.yml', '.codeclimate.yml', 'gulpfile.js']
   };
-
-  return packager(opts, (err, appPath) => {
+  var zipName = pkg.name + '-' + pkg.version + '-' + options.platform + '-' + opts.arch + '.zip'
+  return packager(opts, (err, path) => {
     if (err) {
       console.log(err);
+    } else {
+      console.log(path);
+      gulp.src(path + '/**/*')
+        .pipe(zip(zipName))
+        .pipe(gulp.dest('dist'));
     }
   })
 });

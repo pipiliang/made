@@ -28,12 +28,12 @@ table.madetable {
 table.madetable th{
   border: 1px solid #293038;
   padding: 8px;
-  background-color: #62665c;
+  background-color: #464c53;
 }
 table.madetable td {
   border: 1px solid #293038;
   padding: 8px;
-  background-color: #7e8475;
+  background-color: #474949;
 }
 
 /* theme of edotor*/
