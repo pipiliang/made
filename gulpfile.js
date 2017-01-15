@@ -62,6 +62,7 @@ gulp.task('pack', () => {
     overwrite: true,
     out: path.join(__dirname, 'tmp'),
     asar: true,
+    prune: true,
     ignore: ['.vscode', 'dist', './node_modules', 'test', './out', '.git', './coverage', './tmp', '.gitignore', '.travis.yml', '.codeclimate.yml', 'gulpfile.js']
   };
   var zipName = pkg.name + '-' + pkg.version + '-' + options.platform + '-' + opts.arch + '.zip'

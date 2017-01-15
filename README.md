@@ -2,19 +2,18 @@
 
 一个简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
 
-[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![codecov](https://codecov.io/gh/pipiliang/made/branch/master/graph/badge.svg)](https://codecov.io/gh/pipiliang/made)  [![Code Climate](https://codeclimate.com/github/pipiliang/made/badges/gpa.svg)](https://codeclimate.com/github/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/pipiliang/made/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![Code Climate](https://codeclimate.com/github/pipiliang/made/badges/gpa.svg)](https://codeclimate.com/github/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/pipiliang/made/blob/master/LICENSE)
 
 github： [https://github.com/pipiliang/made](https://github.com/pipiliang/made)
 oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/made)
 
 ## 使用说明
 
-![输入图片说明](http://git.oschina.net/uploads/images/2016/1223/174309_2670930b_856793.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2017/0114/165416_30101a16_856793.png "在这里输入图片标题")
 
 ### 安装
 
-目前只支持Ubuntu，下载对应zip解压即可使用
-- [Ubuntu版本](https://github.com/pipiliang/made/releases)
+目前支持Windows、Ubuntu，下载对应zip解压即可使用
 
 ### 写幻灯片
 ```

@@ -1,6 +1,6 @@
 "use strcit";
 const electron = require('electron');
-const {app, Menu, MenuItem, dialog, BrowserWindow, ipcMain, globalShortcut, shell} = require('electron');
+const {app, Menu, MenuItem, dialog, BrowserWindow, ipcMain, globalShortcut, shell, nativeImage} = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -35,13 +35,14 @@ var ShortCutRegister = {
   }
 }
 
-var loadUrl = function(win, u){
-  win.loadURL(url.format({pathname: path.join(__dirname, u), protocol: 'file:', slashes: true}));
+var loadUrl = function (win, u) {
+  win.loadURL(url.format({ pathname: path.join(__dirname, u), protocol: 'file:', slashes: true }));
 }
 
 var WindowMediator = {
   createNew: () => {
-    var win = new BrowserWindow({ width: 1000, height: 685, frame: true })
+    icon = nativeImage.createFromPath(path.join(__dirname, '../images/made.png'))
+    var win = new BrowserWindow({width: 1000, height: 685, minWidth: 500, minHeight: 300, icon: icon, frame: true})
     loadUrl(win, './../main.html');
 
     win.on('closed', function () { win = null; })
