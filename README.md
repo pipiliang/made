@@ -13,11 +13,11 @@ oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/m
 
 ### 安装
 
-目前支持Windows、Ubuntu，下载对应zip解压即可使用
+目前支持Windows、Ubuntu，[下载](https://github.com/pipiliang/made/releases)对应zip解压即可使用
+
 
 ### 写幻灯片
 ```
-![](http://git.oschina.net/uploads/images/2016/1126/141745_d4135c13_856793.png) 
 ## A markdown slide application.
 
 ---
@@ -73,7 +73,7 @@ npm start
     ]
 }
 ```
-使用vscode调试模式便可进行调试，应用内部调试也可使用开发者工具，快捷键`F8`，頁面刷新`F5`
+使用vscode调试模式便可进行调试，应用内部调试也可使用开发者工具，快捷键`F8`
 
 ### 打包
 

@@ -29,7 +29,7 @@ var ShortCutRegister = {
       let win = BrowserWindow.getFocusedWindow();
       if (!win) return
       globalShortcut.register('F8', () => { win.webContents.toggleDevTools() })
-      globalShortcut.register('F5', () => { win.reload() })
+      //globalShortcut.register('F5', () => { win.reload() })
     }
     return register
   }
