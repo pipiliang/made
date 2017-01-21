@@ -42,7 +42,7 @@ var loadUrl = function (win, u) {
 var WindowMediator = {
   createNew: () => {
     icon = nativeImage.createFromPath(path.join(__dirname, '../images/made.png'))
-    var win = new BrowserWindow({width: 1000, height: 685, minWidth: 500, minHeight: 300, icon: icon, frame: true})
+    var win = new BrowserWindow({ width: 1000, height: 685, minWidth: 500, minHeight: 300, icon: icon, frame: true })
     loadUrl(win, './../main.html');
 
     win.on('closed', function () { win = null; })
@@ -153,14 +153,14 @@ var FileDialog = {
         filePath = dialog.showSaveDialog(parent, { title: saveAs ? "另存为" : "保存", filters: [{ name: 'Made File', extensions: ['md'] }] })
         parent.setTitle("Made - " + filePath)
       }
-      if (filePath !== null) {
+      if (filePath != null) {
         console.log("save file > " + filePath)
         msgMediator.send('save', filePath)
       }
     }
 
     var openCallBack = (filePaths) => {
-      if (filePaths !== null && filePaths.length > 0) {
+      if (filePaths != null && filePaths.length > 0) {
         filePath = filePaths[0]
         console.log("open file > " + filePath)
         msgMediator.send('open', filePath)

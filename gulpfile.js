@@ -54,6 +54,10 @@ gulp.task('pack', () => {
     default: { platform: process.env.NODE_ENV || 'linux' }
   };
   var options = minimist(process.argv.slice(2), knownOptions);
+  var icon = path.join(__dirname, '/app/images/made.png');
+  if(options.platform === 'win32'){
+    icon = path.join(__dirname, '/app/images/made.ico');
+  }
   var opts = {
     dir: path.join(__dirname, '.'),
     arch: 'x64',
@@ -63,6 +67,7 @@ gulp.task('pack', () => {
     out: path.join(__dirname, 'tmp'),
     asar: true,
     prune: true,
+    icon: icon,
     ignore: ['.vscode', 'dist', './node_modules', 'test', './out', '.git', './coverage', './tmp', '.gitignore', '.travis.yml', '.codeclimate.yml', 'gulpfile.js']
   };
   var zipName = pkg.name + '-' + pkg.version + '-' + options.platform + '-' + opts.arch + '.zip'
