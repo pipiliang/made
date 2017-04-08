@@ -1,18 +1,27 @@
 # Made 
+***
 ### A markdown slide presentation application.
 
 |功能项|描述|
 |----|:----|
-|幻灯片演示|`F7` 支持全屏演示|
+|演示|`F7` 支持全屏演示|
 |显示页号|`P` 显示或者隐藏页号|
 |退出|`ESC` 退出全屏|
 |调试模式|`F8` 调试APP|
 
+create by [liangwei](https://github.com/pipiliang)
+
+---
+# 特性
+- 使用`Markdown`写幻灯片
+- 支持全屏演示
+- 支持实时预览
+- 跨平台，支持`Windows`和`Linux`
+- 可演示Wiz笔记
 
 ---
 
-
-# 飞机上的父母
+# 例子
 
 一个邻居的文章
 
@@ -20,23 +29,7 @@
 
 ---
 
-# List
-
-Events:
-- click
-- blur
-
-Methods:
-1. getAllWindows()
-2. getFocusedWindow()
-
----
-
-# Code
-
-`JavaScript`
-
-代码块
+# 例子
 
 ```
 // In the main process.

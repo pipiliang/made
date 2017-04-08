@@ -1,11 +1,11 @@
 ## Made 
 
-一个简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
+Made(**Ma**rkdown Sli**de**),一个简单的Markdown幻灯片应用，基于[**electron**](https://github.com/electron/electron)开发。
 
 [![Build Status](https://travis-ci.org/pipiliang/made.svg?branch=master)](https://travis-ci.org/pipiliang/made)  [![Build status](https://ci.appveyor.com/api/projects/status/j9pljllxa7q4ehx9?svg=true)](https://ci.appveyor.com/project/pipiliang/made)  [![Code Climate](https://codeclimate.com/github/pipiliang/made/badges/gpa.svg)](https://codeclimate.com/github/pipiliang/made)  [![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/pipiliang/made/blob/master/LICENSE)
 
-github： [https://github.com/pipiliang/made](https://github.com/pipiliang/made)
-oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/made)
+- github： [https://github.com/pipiliang/made](https://github.com/pipiliang/made)
+- oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/made)
 
 ## 使用说明
 
@@ -17,16 +17,13 @@ oschina：[https://git.oschina.net/liangw/made](https://git.oschina.net/liangw/m
 
 
 ### 写幻灯片
+使用`---`做分页符
 ```
-## A markdown slide application.
+# Slide 1 : A markdown slide application.
 
 ---
 
-# List
-
-Events:
-- click
-- blur
+# Slide 2 
 
 ```
 

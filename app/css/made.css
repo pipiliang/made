@@ -121,7 +121,7 @@ body {
 .item, .show-layer, .slide-font{
   background-color: #293038;
   background-size: 100% 100%;
-  font-family: Ubuntu, Gill Sans, 华文细黑;
+  font-family: Ubuntu, Gill Sans, 微软雅黑;
   color: #FFFFFF;
 }
 
@@ -139,8 +139,7 @@ body {
 .show-layer {
   position: absolute;
   width: 100%;
-  height: 100%; 
-  /*padding: 5% 10% 5% 10%;*/
+  height: 100%;
   top: 0; 
   bottom: 0;
   z-index:10;
@@ -148,7 +147,7 @@ body {
 
 .showhere {
   margin: 0 auto;
-  padding: 5% 10% 5% 10%;
+  padding: 10% 10% 10% 10%;
   overflow: hidden;
 }
 
@@ -195,4 +194,3 @@ body {
    height: 22px; 
    width: 22px;
 }
-

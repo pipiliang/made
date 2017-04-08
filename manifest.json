@@ -1,0 +1,21 @@
+{  
+  "name": "Made",  
+  "version": "0.0.1",  
+  "manifest_version": 2,
+  "description": "Markdown Slide，用Markdown做幻灯片演示",  
+  "app": {
+    "launch": {
+        "local_path": "/app/made.chrome.html"
+    }
+  },
+
+  "icons":{
+      "128": "/app/images/made.png"
+   },
+   "permissions": [
+        "unlimitedStorage",
+        "notifications",
+        "tabs"
+   ],
+   "content_security_policy": "script-src 'self'; unsafe-inline; object-src 'self'"
+} 

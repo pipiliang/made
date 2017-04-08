@@ -4,6 +4,7 @@ const {app, Menu, MenuItem, dialog, BrowserWindow, ipcMain, globalShortcut, shel
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
+const pkg = require('./../../package.json');
 
 var Made = {
   startup: function () {
@@ -29,7 +30,7 @@ var ShortCutRegister = {
       let win = BrowserWindow.getFocusedWindow();
       if (!win) return
       globalShortcut.register('F8', () => { win.webContents.toggleDevTools() })
-      //globalShortcut.register('F5', () => { win.reload() })
+      globalShortcut.register('F5', () => { win.reload() })
     }
     return register
   }
@@ -90,7 +91,9 @@ var MenuBuilder = {
       const template = [{
         label: '文件', submenu: [
           { label: "新建", accelerator: 'Ctrl+N', click() { shell.openItem(app.getPath("exe")) } },
+          { type: 'separator' },
           { label: "打开...", accelerator: 'Ctrl+O', click() { fileDlg.openFile() } },
+          { label: "从为知打开...",  click() { MadeWindow.new(mainWindow, "", "./../wizbroswer.html") } },
           { label: "最近使用的", submenu: [{ label: "清除", enabled: false, click() { RecentFiles.clear() } }] },
           { type: 'separator' },
           { label: "保存", accelerator: 'Ctrl+S', click() { fileDlg.saveFile(false) } },
@@ -177,7 +180,7 @@ var MessageBoxCamp = {
   showAbout: (parent) => {
     dialog.showMessageBox(parent, {
       type: "info", buttons: ['OK'], title: "Made",
-      detail: "版本  : 0.0.1\n"
+      detail: "版本  : " + pkg.version +"\n"
       + "Node.js : " + process.versions.node + "\n"
       + "Chromium: " + process.versions.chrome + "\n"
       + "Electron: " + process.versions.electron + "\n",
@@ -192,13 +195,13 @@ var MessageBoxCamp = {
   }
 }
 
-var PreferencesWindow = {
-  show: (parent) => {
+var MadeWindow = {
+  new: (parent, title, url) => {
     var win = new BrowserWindow({
-      width: 600, height: 400, parent: parent, modal: true, show: true, title: '偏好设置', resizable: false
+      width: 600, height: 400, parent: parent, modal: true, show: true, title: title, resizable: false
     });
     win.setMenuBarVisibility(false);
-    loadUrl(win, 'app/preferences.html');
+    loadUrl(win, url);
   }
 }
 
@@ -259,7 +262,7 @@ var RecentFiles = {
 
   recentMenu: () => {
     var menu = Menu.getApplicationMenu()
-    var recentMenuItem = Menu.getApplicationMenu().items[0].submenu.items[2];
+    var recentMenuItem = Menu.getApplicationMenu().items[0].submenu.items[4];
     return recentMenuItem.submenu;
   }
 }

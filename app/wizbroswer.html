@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>为知笔记</title>
+  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./lib/bootstrap-toggle/bootstrap-toggle.min.css" />
+  <link rel="stylesheet" href="./css/made.css">
+</head>
+
+<body>
+  <div class="container" id="login">
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3" style="padding-top: 15%">
+        <form class="form-horizontal" role="form" id="loginfrm" target="#">
+          <div class="form-group has-feedback">
+            <span class="form-control-feedback glyphicon glyphicon-user"></span>
+            <input type="text" class="form-control" id="username" value="liangwei-86@hotmail.com" placeholder="账号:">
+          </div>
+          <div class="form-group has-feedback">
+            <span class="form-control-feedback glyphicon glyphicon-lock"></span>
+            <input type="password" class="form-control" id="password" placeholder="密码:">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-default form-control">登录</button>
+          </div>
+          <div class="form-group">
+            <div class="checkbox">
+              <label><input type="checkbox">记住我</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="notetree" class="container" hidden="true">
+    <div class="row" style="border-bottom: 1px solid lightgray">
+      <div class="col-xs-3">
+        <img src="./images/wiz.png">
+      </div>
+      <div class="col-xs-9">
+        <div style="padding-top:10px; float:right; color:#4682B4">
+          <span class="glyphicon glyphicon-user"></span>
+          <span id="accout"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6" style="padding-left:1px; padding-right:1px; border-right: 1px solid lightgray;">
+        <div id="tree" style="overflow: scroll;height:350px;"></div>
+      </div>
+      <div class="col-xs-6" style="padding-left:0; padding-right:0; border-right: 0;">
+        <div class="list-group" id="notes">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+  </footer>
+  <script>
+        const isElectron = true;
+        if(isElectron){
+            window.$ = window.jQuery = require('./lib/jquery.min.js');
+        }
+
+        var wizcontext = {
+          api_url: 'http://note.wiz.cn/api',
+          client_type: 'CLIENT_TYPE',
+          api_version: '4',
+          token : '', 
+          kb_guid: '',
+          user_id : ''
+        };
+
+        $(document).ready(function() {
+            $('#loginfrm').bind('submit', function() {
+                if(wizcontext.token.length <= 0){
+                  login(function(data) {
+                      var info =  JSON.parse(data);
+                      if(info.code == 200){
+                        $("#notetree").show();
+                        $("#login").hide();
+                        $("#accout").text(info.user.user_id);
+                        wizcontext.token = info.token;
+                        wizcontext.kb_guid = info.kb_guid;
+                        wizcontext.user_id = info.user.user_id;
+                        getcategories(info.token, info.kb_guid, getcategoriescallback)
+                      } else{
+                        
+                      }
+                  });
+                } else{
+                  $("#accout").text(wizcontext.user_id);
+                  getcategories(wizcontext.token, wizcontext.kb_guid, getcategoriescallback)
+                }
+                return false;
+            });
+        });
+
+        function getcategoriescallback(data) {
+            var tmp = JSON.parse(data);
+            if(tmp.code == 200){
+                $('#tree').treeview({ 
+                data: initdata(tmp), 
+                borderColor: 'white'
+              });
+               $('#tree').on('nodeSelected', function(event, nd) {
+                 getdocumentlist(nd.location, getdocumentlistcallback);
+               });
+            }
+        };
+
+        function initdata(data){
+					var nodes = [];
+					var list = data.list;
+					var length = list.length;
+					for(var i = 0; i < length; i++){
+						var cur = list[i];
+            //if(cur.parentLocation == "/"){
+						  let node = {};
+						  node['text'] = cur.category_name;
+							node['icon'] = 'glyphicon glyphicon-folder-close';
+							node['selectedIcon'] = 'glyphicon glyphicon-folder-open';
+              node['location'] = cur.location;
+						  nodes.push(node)
+					//	}
+					}
+					var json = JSON.stringify(nodes);
+          return json;
+        }
+
+        function getdocumentlistcallback(data){
+          $('#notes').empty();
+          var notedata =  JSON.parse(data);
+          var notelist = notedata.list;
+          for(var i = 0; i < notelist.length; i ++){
+            var cur = notelist[i];
+            $('#notes').append('<a class="list-group-item"><h6 class="list-group-item-heading"><i class="glyphicon glyphicon-download-alt" onclick="download(this)" data="' + cur.document_guid + '"></i>' + '    ' + cur.document_title +'</h6></a>');
+          }
+        };
+        
+        function download(it){
+          var doc_guid = it.attributes['data'].value;
+          getdocumentinfo(doc_guid, function(data){
+            var note =  JSON.parse(data);
+            var body = note.document_info.document_body;
+            console.log(body);
+          });
+        };
+
+        function getcategories(token, kb_guid, fn){
+          $.ajax({
+                url: wizcontext.api_url + "/category/all",
+                type: "get",
+                data: {
+                    client_type: wizcontext.client_type,
+                    api_version: wizcontext.api_version,
+                    token: wizcontext.token,
+                    kb_guid: wizcontext.kb_guid
+                },
+                dataType: "text",
+                success: fn
+            });
+        }
+
+        function login(fn) {
+            var strU = encodeURI($("#username").val());
+            var mdPwd =  hex_md5($("#password").val());
+            var strP = encodeURI("md5." + mdPwd);
+
+            $.ajax({
+                url: wizcontext.api_url + "/login",
+                type: "post",
+                data: {
+                    client_type: wizcontext.client_type,
+                    api_version: wizcontext.api_version,
+                    user_id: strU,
+                    password: strP
+                },
+                dataType: "text",
+                success: fn
+            });
+        }
+
+        function getdocumentlist(location, fn){
+          $.ajax({
+                url: wizcontext.api_url + "/document/list",
+                type: "get",
+                data: {
+                    client_type: wizcontext.client_type,
+                    api_version: wizcontext.api_version,
+                    token: wizcontext.token,
+                    kb_guid: wizcontext.kb_guid,
+                    action_cmd: 'category',
+                    action_value: location,
+                    count: 200,
+                    auto: true
+                },
+                dataType: "text",
+                success: fn
+            });
+        }
+
+        function getdocumentinfo(doc_guid, fn){
+          $.ajax({
+                url: wizcontext.api_url + "/document/info",
+                type: "get",
+                data: {
+                    client_type: wizcontext.client_type,
+                    api_version: wizcontext.api_version,
+                    token: wizcontext.token,
+                    kb_guid: wizcontext.kb_guid,
+                    document_guid: doc_guid
+                },
+                dataType: "text",
+                success: fn
+            });
+        }
+    </script>
+  <script src="./lib/jquery.min.js"></script>
+  <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="./lib/md5.js"></script>
+  <script src="./lib/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+</body>
+
+</html>

@@ -4,11 +4,14 @@
  * Copyright (c) 2016-2020, liang wei. (MIT Licensed)
  * https://github.com/pipiliang/made
  */
+var midWidth = 6;
+var lMin = 200;
+var rMin = 300;
 
 $(document).ready(function () {
-  var midWidth = 6;
-  var lMin = 200;
-  var rMin = 300;
+
+  setLayout(getClientWidth() / 2);
+
   $("#middle").on('mousedown', function (e) {
     var disX = (e || event).clientX;
     middle.left = $("#middle").offset().left;
@@ -17,10 +20,7 @@ $(document).ready(function () {
       var left = middle.left + ((e || event).clientX - disX);
       if (left <= lMin || left >= (getClientWidth() - rMin))
         return false;
-      $("#middle").css("left", left + "px");
-      $("#left").width(left);
-      $("#right").width(getClientWidth() - left - midWidth);
-      $("#right").css("left", left + midWidth + "px");
+      setLayout(left);
       scale();
       return false;
     };
@@ -41,10 +41,9 @@ $(document).ready(function () {
     var curWidth = getClientWidth();
 
     var leftWidth = (curWidth - midWidth) * ($("#left").width() / (preWidth - midWidth));
-    $("#left").width(leftWidth);
-    $("#middle").css("left", leftWidth + "px");
-    $("#right").width(curWidth - midWidth - leftWidth);
-    $("#right").css("left", (leftWidth + midWidth) + "px");
+    if(leftWidth <= lMin)
+      leftWidth = lMin;
+    setLayout(leftWidth);
     scale();
 
     preWidth = curWidth;
@@ -57,6 +56,13 @@ $(document).ready(function () {
   function scale() {
     var ratio = ($("#right").width() / 644);
     $("#showContainer").children("div").css("zoom", ratio);
+  }
+
+  function setLayout(left){
+    $("#middle").css("left", left + "px");
+    $("#left").width(left);
+    $("#right").width(getClientWidth() - left - midWidth);
+    $("#right").css("left", left + midWidth + "px");
   }
 
 });

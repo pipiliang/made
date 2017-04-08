@@ -77,7 +77,7 @@ function showSlide() {
   }
   $('#showHere').animate({ 'opacity': 0 }, 200, function () {
     $(this).html(children[pageNumber].innerHTML).animate({ 'opacity': 1 }, 400);
-    $(this).css('zoom',  1.2);
+    $(this).css('zoom',  (window.screen.availWidth * 0.8 )/ 644);
   });
   $("#page").html((pageNumber + 1) + " / " + (lastSlideIndex() + 1));
 }
@@ -94,6 +94,9 @@ function show(state) {
     var electron = require('electron');
     electron.remote.getCurrentWindow().setFullScreen(state);
     electron.remote.getCurrentWindow().setMenuBarVisibility(!state);
+  }else{
+    var showcase = document.getElementById("showcase");
+    state ? requestFullScreen(showcase) : exitFullScreen();
   }
   state ? $("#showcase").show() : $("#showcase").hide()
   state ? document.addEventListener('keydown', handleBodyKeyDown, false) : document.removeEventListener('keydown', handleBodyKeyDown, false);
