@@ -9,11 +9,19 @@ Made(**Ma**rkdown Sli**de**),一个简单的Markdown幻灯片应用，基于[**e
 
 ## 使用说明
 
-![输入图片说明](http://git.oschina.net/uploads/images/2017/0114/165416_30101a16_856793.png "在这里输入图片标题")
+**Made**支持两种运行方式：
+- Chrome扩展应用
+
+![](http://git.oschina.net/uploads/images/2017/0407/230058_52a39095_856793.png "在这里输入图片标题")
+- Electron应用
+
+![](http://git.oschina.net/uploads/images/2017/0114/165416_30101a16_856793.png "在这里输入图片标题")
 
 ### 安装
 
-目前支持Windows、Ubuntu，[下载](https://github.com/pipiliang/made/releases)对应zip解压即可使用
+Chrome扩展应用，下载源码通过开发者模式安装Chrome扩展
+
+Electron应用，目前支持Windows、Ubuntu，[下载](https://github.com/pipiliang/made/releases)对应zip解压即可使用
 
 
 ### 写幻灯片
@@ -93,3 +101,4 @@ gulp pack --platform win32
 - [**CodeMirror**](http://codemirror.net/)
 - [**marked**](https://github.com/chjj/marked)
 - [**FontAwesome**](http://fontawesome.io/)
+- **jquery**
