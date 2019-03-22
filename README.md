@@ -44,14 +44,18 @@ git clone git@github.com:pipiliang/made.git
 ```
 在项目根目录，使用npm安装electron
 ```
-npm install --save-dev electron
+cd made
+```
+安装依赖
+```
+npm i
 ```
 如果无法安装，可以使用taobao镜像
 ```
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 ```
-cnpm install --save-dev electron
+cnpm install
 ```
 
 ### 启动
@@ -81,11 +85,6 @@ npm start
 使用vscode调试模式便可进行调试，应用内部调试也可使用开发者工具，快捷键`F8`
 
 ### 打包
-
-安装依赖
-```
-npm install
-```
 默认打包Linux版本
 ```
 gulp pack

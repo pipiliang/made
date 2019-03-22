@@ -1,1 +1,0 @@
-const isElectron = false;

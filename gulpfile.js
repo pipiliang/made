@@ -68,7 +68,7 @@ gulp.task('pack', () => {
     asar: true,
     prune: true,
     icon: icon,
-    ignore: ['.vscode', 'dist', './node_modules', 'test', './out', '.git', './coverage', './tmp', '.gitignore', '.travis.yml', '.codeclimate.yml', 'gulpfile.js']
+    ignore: ['src', 'test', 'e2e', '.vscode', 'dist', './node_modules', 'test', './out', '.git', './coverage', 'tmp', '.gitignore', '.travis.yml', '.codeclimate.yml', 'gulpfile.js']
   };
   var zipName = pkg.name + '-' + pkg.version + '-' + options.platform + '-' + opts.arch + '.zip'
   return packager(opts, (err, path) => {

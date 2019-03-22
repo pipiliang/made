@@ -11,12 +11,11 @@ cache:
   - "$HOME/.electron"
   - node_modules
 before_script:
-  - npm install -g gulp
-  - gulp clean
+  - npm run clean
 script: 
-  - gulp coverage
+  - npm run coverage
   - cat ./coverage/lcov.info | codecov
-  - gulp pack
+  - npm run pack
 after_success:
   - ls -la
   - cd dist
